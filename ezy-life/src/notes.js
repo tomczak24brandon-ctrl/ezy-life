@@ -17,7 +17,7 @@ function buildNoteColorPicker(selectedCls) {
 
 function nmSelectColor(cls) {
 
-  _nmColor = cls;
+  window._nmColor = cls;
 
   buildNoteColorPicker(cls);
 
@@ -25,11 +25,11 @@ function nmSelectColor(cls) {
 
 function openNoteModal(noteId) {
 
-  _editingNoteId = noteId;
+  window._editingNoteId = noteId;
 
-  _nmPinned = false;
+  window._nmPinned = false;
 
-  _nmColor = '';
+  window._nmColor = '';
 
   if (noteId !== null) {
 
@@ -41,9 +41,9 @@ function openNoteModal(noteId) {
 
     nceSetValue(n.body || '');
 
-    _nmColor = n.color || '';
+    window._nmColor = n.color || '';
 
-    _nmPinned = !!n.pinned;
+    window._nmPinned = !!n.pinned;
 
     document.getElementById('nm-del-btn').style.display = 'inline-flex';
 
@@ -63,9 +63,9 @@ function openNoteModal(noteId) {
 
   var pinBtn = document.getElementById('nm-pin-btn');
 
-  pinBtn.textContent = _nmPinned ? '📌 Unpin' : '📌 Pin';
+  pinBtn.textContent = window._nmPinned ? '📌 Unpin' : '📌 Pin';
 
-  buildNoteColorPicker(_nmColor);
+  buildNoteColorPicker(window._nmColor);
 
   showModal('note');
 
@@ -73,9 +73,9 @@ function openNoteModal(noteId) {
 
 function nmTogglePin() {
 
-  _nmPinned = !_nmPinned;
+  window._nmPinned = !window._nmPinned;
 
-  document.getElementById('nm-pin-btn').textContent = _nmPinned ? '📌 Unpin' : '📌 Pin';
+  document.getElementById('nm-pin-btn').textContent = window._nmPinned ? '📌 Unpin' : '📌 Pin';
 
 }
 
@@ -85,9 +85,9 @@ function nmSave() {
 
   if (!body) { alert('Note body cannot be empty.'); return; }
 
-  if (_editingNoteId !== null) {
+  if (window._editingNoteId !== null) {
 
-    var n = notes.find(function(x){return x.id===_editingNoteId;});
+    var n = notes.find(function(x){return x.id===window._editingNoteId;});
 
     if (n) {
 
@@ -95,9 +95,9 @@ function nmSave() {
 
       n.body = body;
 
-      n.color = _nmColor;
+      n.color = window._nmColor;
 
-      n.pinned = _nmPinned;
+      n.pinned = window._nmPinned;
 
     }
 
@@ -111,9 +111,9 @@ function nmSave() {
 
       body: body,
 
-      color: _nmColor,
+      color: window._nmColor,
 
-      pinned: _nmPinned
+      pinned: window._nmPinned
 
     });
 
@@ -131,7 +131,7 @@ function nmDelete() {
 
   if (!confirm('Delete this note?')) return;
 
-  notes = notes.filter(function(n){return n.id!==_editingNoteId;});
+  notes = notes.filter(function(n){return n.id!==window._editingNoteId;});
 
   closeModal('note');
 

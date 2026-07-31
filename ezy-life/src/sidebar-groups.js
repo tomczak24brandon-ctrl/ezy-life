@@ -133,7 +133,7 @@ function sgItemDragEnd(){
 
 function sgDragStart(e, gi) {
 
-  _sgDragSrcIdx = gi;
+  window._sgDragSrcIdx = gi;
 
   e.dataTransfer.effectAllowed = 'move';
 
@@ -157,7 +157,7 @@ function sgDragOver(e, gi) {
 
   document.querySelectorAll('.sg-group').forEach(function(el) { el.classList.remove('drag-over'); });
 
-  if (gi !== _sgDragSrcIdx) {
+  if (gi !== window._sgDragSrcIdx) {
 
     var el = document.querySelector('.sg-group[data-gi="'+gi+'"]');
 
@@ -171,7 +171,7 @@ function sgDragOver(e, gi) {
 
   var targetEl = document.querySelector('.sg-group[data-gi="'+gi+'"]');
 
-  if (targetEl && gi !== _sgDragSrcIdx) {
+  if (targetEl && gi !== window._sgDragSrcIdx) {
 
     var rect = targetEl.getBoundingClientRect();
 
@@ -201,7 +201,7 @@ function sgDrop(e, gi) {
 
   document.querySelectorAll('.nav-drag-placeholder').forEach(function(p){p.remove();});
 
-  if (_sgDragSrcIdx === null || _sgDragSrcIdx === gi) return;
+  if (window._sgDragSrcIdx === null || window._sgDragSrcIdx === gi) return;
 
   // Determine position
 
@@ -217,7 +217,7 @@ function sgDrop(e, gi) {
 
   }
 
-  var src = _sgDragSrcIdx;
+  var src = window._sgDragSrcIdx;
 
   var moved = sidebarGroups.splice(src, 1)[0];
 
@@ -241,7 +241,7 @@ function sgDragEnd(e) {
 
   document.querySelectorAll('.nav-drag-placeholder').forEach(function(p){p.remove();});
 
-  _sgDragSrcIdx = null;
+  window._sgDragSrcIdx = null;
 
 }
 

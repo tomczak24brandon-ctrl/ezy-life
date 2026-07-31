@@ -86,26 +86,26 @@ var categories = [
   { id:4, name:'Personal', emoji:'⭐' }
 ];
 
-var _nextCatId = 5;
-var _newCatEmoji = '⭐';
-var _tasks = {};
-var _nextTaskId = 1;
-var _newSubs = [];
-var _pendingReassign = null;
-var _calDate = null;
-var _isPM = false;
-var _isEndPM = false;
-var _selectedTaskColor = '#1f6feb';
-var _gcalView = 'day';
-var _gcalAnchor = new Date();
-var _addTaskDate = null;
-var _addTaskHour = null;
-var _editingGoalId = null;
-var _editingNoteId = null;
-var _editingTaskDk = null;
-var _editingTaskId = null;
-var _nmColor = '';
-var _nmPinned = false;
+window._nextCatId = 5;
+window._newCatEmoji = '⭐';
+window._tasks = {};
+window._nextTaskId = 1;
+window._newSubs = [];
+window._pendingReassign = null;
+window._calDate = null;
+window._isPM = false;
+window._isEndPM = false;
+window._selectedTaskColor = '#1f6feb';
+window._gcalView = 'day';
+window._gcalAnchor = new Date();
+window._addTaskDate = null;
+window._addTaskHour = null;
+window._editingGoalId = null;
+window._editingNoteId = null;
+window._editingTaskDk = null;
+window._editingTaskId = null;
+window._nmColor = '';
+window._nmPinned = false;
 
 // ===== SIDEBAR GROUPS =====
 
@@ -168,8 +168,8 @@ var sidebarGroups = [
   }
 ];
 
-var _sgDragSrc = null;
-var _sgDragSrcIdx = null;
+window._sgDragSrc = null;
+window._sgDragSrcIdx = null;
 
 function _getOAuthToken() {
   return sessionStorage.getItem('goog_oauth_token') || null;

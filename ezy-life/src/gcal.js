@@ -1,7 +1,7 @@
 
 function setGCalView(v) {
 
-  _gcalView = v;
+  window._gcalView = v;
 
   ['day','week','month','schedule'].forEach(function(vv){
 
@@ -18,7 +18,7 @@ function setGCalView(v) {
 
 function gcalToday() {
 
-  _gcalAnchor = new Date();
+  window._gcalAnchor = new Date();
 
   renderGCal();
 
@@ -26,15 +26,15 @@ function gcalToday() {
 
 function gcalShift(delta) {
 
-  var d = new Date(_gcalAnchor);
+  var d = new Date(window._gcalAnchor);
 
-  if (_gcalView === 'day')   d.setDate(d.getDate() + delta);
+  if (window._gcalView === 'day')   d.setDate(d.getDate() + delta);
 
-  else if (_gcalView === 'week')  d.setDate(d.getDate() + delta*7);
+  else if (window._gcalView === 'week')  d.setDate(d.getDate() + delta*7);
 
   else d.setMonth(d.getMonth() + delta);
 
-  _gcalAnchor = d;
+  window._gcalAnchor = d;
 
   renderGCal();
 
@@ -48,7 +48,7 @@ function renderGCal() {
 
   var so = document.getElementById('gcal-schedule-outer');
 
-  if (_gcalView === 'month') {
+  if (window._gcalView === 'month') {
 
     go.style.display = 'none';
 
@@ -58,7 +58,7 @@ function renderGCal() {
 
     renderGCalMonth();
 
-  } else if (_gcalView === 'schedule') {
+  } else if (window._gcalView === 'schedule') {
 
     go.style.display = 'none';
 
@@ -74,7 +74,7 @@ function renderGCal() {
 
     if (so) so.style.display = 'none';
 
-    if (_gcalView === 'week') renderGCalWeek();
+    if (window._gcalView === 'week') renderGCalWeek();
 
     else renderGCalDay();
 
@@ -140,7 +140,7 @@ function renderGCal() {
 
 function renderGCalWeek() {
 
-  var anchor = new Date(_gcalAnchor);
+  var anchor = new Date(window._gcalAnchor);
 
   var sunday = new Date(anchor);
 
@@ -170,7 +170,7 @@ function renderGCalWeek() {
 
 function renderGCalDay() {
 
-  var d = new Date(_gcalAnchor);
+  var d = new Date(window._gcalAnchor);
 
   var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
@@ -252,7 +252,7 @@ function buildHourGrid(days) {
 
     var isToday = dk === todayKey;
 
-    var dayTasks = _tasks[dk] || [];
+    var dayTasks = window._tasks[dk] || [];
 
     colsHtml += '<div class="gcal-day-col" data-date="'+dk+'" onclick="gcalColClick(event,\''+dk+'\')">';
 
@@ -358,7 +358,7 @@ function gcalColClick(e, dk) {
 
 function gcalClickDayHeader(dk) {
 
-  _gcalAnchor = new Date(dk+'T12:00:00');
+  window._gcalAnchor = new Date(dk+'T12:00:00');
 
   setGCalView('day');
 
@@ -366,11 +366,11 @@ function gcalClickDayHeader(dk) {
 
 function gcalOpenTask(dk, tid) {
 
-  var t = (_tasks[dk]||[]).find(function(x){return x.id===tid;});
+  var t = (window._tasks[dk]||[]).find(function(x){return x.id===tid;});
 
   if (!t) return;
 
-  _editingTaskDk = dk; _editingTaskId = tid;
+  window._editingTaskDk = dk; window._editingTaskId = tid;
 
   // Title
 
@@ -454,7 +454,7 @@ var _tdGlobalDragSrc = null;
 
 function renderGCalMonth() {
 
-  var y = _gcalAnchor.getFullYear(), mo = _gcalAnchor.getMonth();
+  var y = window._gcalAnchor.getFullYear(), mo = window._gcalAnchor.getMonth();
 
   var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
@@ -480,7 +480,7 @@ function renderGCalMonth() {
 
     var dk = y+'-'+pad2(mo+1)+'-'+pad2(d);
 
-    var dayTasks = _tasks[dk]||[];
+    var dayTasks = window._tasks[dk]||[];
 
     var isToday = dk===todayKey;
 
@@ -530,7 +530,7 @@ function renderGCalMonth() {
 
 function gcalMonthCellClick(dk) {
 
-  _gcalAnchor = new Date(dk+'T12:00:00');
+  window._gcalAnchor = new Date(dk+'T12:00:00');
 
   setGCalView('day');
 
@@ -541,7 +541,7 @@ function gcalMonthCellClick(dk) {
 function renderGCalSchedule() {
   var so = document.getElementById('gcal-schedule-outer'); if (!so) return;
   // Collect all date keys with tasks, sorted
-  var keys = Object.keys(_tasks).filter(function(k){ return _tasks[k] && _tasks[k].length > 0; }).sort();
+  var keys = Object.keys(window._tasks).filter(function(k){ return window._tasks[k] && window._tasks[k].length > 0; }).sort();
   if (!keys.length) { so.innerHTML = '<div style="color:var(--text3);text-align:center;padding:40px">No tasks scheduled.</div>'; return; }
   var html = '';
   keys.forEach(function(dk) {
@@ -552,7 +552,7 @@ function renderGCalSchedule() {
     html += '<div style="font-size:13px;font-weight:700;color:var(--accent2);letter-spacing:.04em;margin-bottom:6px;text-transform:uppercase">';
     html += DAYS[d.getDay()]+', '+MONTHS[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
     html += '</div>';
-    var tasks = _tasks[dk].slice().sort(function(a,b){ return (a.time||'').localeCompare(b.time||''); });
+    var tasks = window._tasks[dk].slice().sort(function(a,b){ return (a.time||'').localeCompare(b.time||''); });
     tasks.forEach(function(t) {
       var color = t.color || '#1f6feb';
       html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--card);border-radius:10px;border-left:4px solid '+color+';margin-bottom:6px">';
@@ -579,13 +579,13 @@ function renderGCalSchedule() {
   so.innerHTML = html;
 }
 function _schedToggleTask(dk,id,done){
-  if(!_tasks[dk])return;
-  var t=_tasks[dk].find(function(x){return x.id===id;});
+  if(!window._tasks[dk])return;
+  var t=window._tasks[dk].find(function(x){return x.id===id;});
   if(t){t.done=done;saveData();}
 }
 function _schedToggleSub(dk,id,si,done){
-  if(!_tasks[dk])return;
-  var t=_tasks[dk].find(function(x){return x.id===id;});
+  if(!window._tasks[dk])return;
+  var t=window._tasks[dk].find(function(x){return x.id===id;});
   if(t&&t.subtasks&&t.subtasks[si]){t.subtasks[si].done=done;saveData();}
 }
 

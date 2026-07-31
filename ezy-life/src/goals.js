@@ -43,7 +43,7 @@ function toggleGoalStep(prefix, i) {
 
   if (prefix === 'gd') {
 
-    var g = goals.find(function(x){ return x.id === _editingGoalId; });
+    var g = goals.find(function(x){ return x.id === window._editingGoalId; });
 
     if (g && arr.length > 0) {
 
@@ -639,7 +639,7 @@ function openEditGoalModal(gid) {
 
   if (!g) return;
 
-  _editingGoalId = gid;
+  window._editingGoalId = gid;
 
   _gSteps = (g.steps||[]).map(function(s){ return Object.assign({},s); });
 
@@ -665,7 +665,7 @@ function openEditGoalModal(gid) {
 
 function openAddGoalModal(catId) {
 
-  _editingGoalId = null;
+  window._editingGoalId = null;
 
   document.querySelector('#modal-addgoal .modal-title').innerHTML = '&#127919; Add Goal';
 
@@ -721,11 +721,11 @@ function saveGoal() {
 
   var dateVal = document.getElementById('g-date').value;
 
-  if (_editingGoalId) {
+  if (window._editingGoalId) {
 
     // Edit mode � update existing goal
 
-    var existing = goals.find(function(g){ return g.id === _editingGoalId; });
+    var existing = goals.find(function(g){ return g.id === window._editingGoalId; });
 
     if (existing) {
 
@@ -739,7 +739,7 @@ function saveGoal() {
 
     }
 
-    _editingGoalId = null;
+    window._editingGoalId = null;
 
   } else {
 
@@ -991,7 +991,7 @@ function openGoalDetail(gid) {
 
   if (!g) return;
 
-  _editingGoalId = gid;
+  window._editingGoalId = gid;
 
   var cat = categories.find(function(c){ return c.id===g.catId; }) || {emoji:'?',name:'General'};
 
@@ -1045,7 +1045,7 @@ function gdAddStep() {
 
   if (!txt) return;
 
-  var g = goals.find(function(x){return x.id===_editingGoalId;});
+  var g = goals.find(function(x){return x.id===window._editingGoalId;});
 
   if (!g) return;
 
@@ -1113,7 +1113,7 @@ function gdDashStepDateChange(e) {
 
 function gdToggleStep(i) {
 
-  var g = goals.find(function(x){return x.id===_editingGoalId;});
+  var g = goals.find(function(x){return x.id===window._editingGoalId;});
 
   if (!g||!g.steps) return;
 
@@ -1125,7 +1125,7 @@ function gdToggleStep(i) {
 
 function gdUpdateStepText(i, val) {
 
-  var g = goals.find(function(x){return x.id===_editingGoalId;});
+  var g = goals.find(function(x){return x.id===window._editingGoalId;});
 
   if (g&&g.steps&&g.steps[i]) g.steps[i].text = val;
 
@@ -1133,7 +1133,7 @@ function gdUpdateStepText(i, val) {
 
 function gdDeleteStep(i) {
 
-  var g = goals.find(function(x){return x.id===_editingGoalId;});
+  var g = goals.find(function(x){return x.id===window._editingGoalId;});
 
   if (!g||!g.steps) return;
 
@@ -1145,7 +1145,7 @@ function gdDeleteStep(i) {
 
 function gdSave() {
 
-  var g = goals.find(function(x){return x.id===_editingGoalId;});
+  var g = goals.find(function(x){return x.id===window._editingGoalId;});
 
   if (!g) return;
 
@@ -1191,7 +1191,7 @@ function gdDeleteGoal() {
 
   if (!confirm('Delete this goal?')) return;
 
-  goals = goals.filter(function(g){ return g.id !== _editingGoalId; });
+  goals = goals.filter(function(g){ return g.id !== window._editingGoalId; });
 
   closeModal('goaldetail');
 
@@ -1203,7 +1203,7 @@ function gdDeleteGoal() {
 
 // ===== CATEGORIES =====
 
-function confirmReassign(){ if(!_pendingReassign)return; var nd=document.getElementById('reassign-date').value; if(!nd){alert('Pick a date.');return;} var _a=_pendingReassign; var t=(_tasks[_a.dk]||[]).find(function(x){return x.id===_a.tid;}); if(t){var s=t.subtasks.find(function(x){return x.id===_a.sid;}); if(s){s.rdate=nd;s.done=false;}} _pendingReassign=null; closeModal('reassign'); renderGCal(); }
+function confirmReassign(){ if(!window._pendingReassign)return; var nd=document.getElementById('reassign-date').value; if(!nd){alert('Pick a date.');return;} var _a=window._pendingReassign; var t=(window._tasks[_a.dk]||[]).find(function(x){return x.id===_a.tid;}); if(t){var s=t.subtasks.find(function(x){return x.id===_a.sid;}); if(s){s.rdate=nd;s.done=false;}} window._pendingReassign=null; closeModal('reassign'); renderGCal(); }
 
 // ===== UTILS =====
 

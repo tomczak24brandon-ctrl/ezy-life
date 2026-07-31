@@ -25,21 +25,21 @@ function setJTab(el) {
 
 function setAMPM(ampm) {
 
-  _isPM = (ampm === 'PM');
+  window._isPM = (ampm === 'PM');
 
-  var amBtn = document.getElementById('t-am-btn'); if(amBtn) amBtn.classList.toggle('active', !_isPM);
+  var amBtn = document.getElementById('t-am-btn'); if(amBtn) amBtn.classList.toggle('active', !window._isPM);
 
-  var pmBtn = document.getElementById('t-pm-btn'); if(pmBtn) pmBtn.classList.toggle('active', _isPM);
+  var pmBtn = document.getElementById('t-pm-btn'); if(pmBtn) pmBtn.classList.toggle('active', window._isPM);
 
 }
 
 function setEndAMPM(ampm) {
 
-  _isEndPM = (ampm === 'PM');
+  window._isEndPM = (ampm === 'PM');
 
-  var eamBtn = document.getElementById('t-eam-btn'); if(eamBtn) eamBtn.classList.toggle('active', !_isEndPM);
+  var eamBtn = document.getElementById('t-eam-btn'); if(eamBtn) eamBtn.classList.toggle('active', !window._isEndPM);
 
-  var epmBtn = document.getElementById('t-epm-btn'); if(epmBtn) epmBtn.classList.toggle('active', _isEndPM);
+  var epmBtn = document.getElementById('t-epm-btn'); if(epmBtn) epmBtn.classList.toggle('active', window._isEndPM);
 
 }
 
@@ -109,7 +109,7 @@ function autoToggleAMPM(which, changedEl) {
 
   if (flip) {
 
-    var isPM = isEnd ? _isEndPM : _isPM;
+    var isPM = isEnd ? window._isEndPM : window._isPM;
 
     isPM = !isPM;
 
@@ -151,9 +151,9 @@ function getPickedTime() {
 
   if (isNaN(mn)||mn<0||mn>59) mn=0;
 
-  if (_isPM && hr!==12) hr+=12;
+  if (window._isPM && hr!==12) hr+=12;
 
-  if (!_isPM && hr===12) hr=0;
+  if (!window._isPM && hr===12) hr=0;
 
   return pad2(hr)+':'+pad2(mn);
 
@@ -169,9 +169,9 @@ function getPickedEndTime() {
 
   if (isNaN(mn)||mn<0||mn>59) mn=0;
 
-  if (_isEndPM && hr!==12) hr+=12;
+  if (window._isEndPM && hr!==12) hr+=12;
 
-  if (!_isEndPM && hr===12) hr=0;
+  if (!window._isEndPM && hr===12) hr=0;
 
   return pad2(hr)+':'+pad2(mn);
 
@@ -219,11 +219,11 @@ function printPage() {
 
     // ---- BUILD AGENDA HTML ----
 
-    var anchor = new Date(_gcalAnchor);
+    var anchor = new Date(window._gcalAnchor);
 
     var days = [];
 
-    if (_gcalView === 'week') {
+    if (window._gcalView === 'week') {
 
       var sunday = new Date(anchor);
 
@@ -259,7 +259,7 @@ function printPage() {
 
       var dk = tbDateKey(d);
 
-      var dayTasks = (_tasks[dk] || []).slice();
+      var dayTasks = (window._tasks[dk] || []).slice();
 
       // Sort by start time
 
@@ -285,7 +285,7 @@ function printPage() {
 
     // Title
 
-    if (_gcalView === 'week') {
+    if (window._gcalView === 'week') {
 
       var firstDay = days[0], lastDay = days[6];
 
@@ -307,7 +307,7 @@ function printPage() {
 
         // Day heading (only in week view)
 
-        if (_gcalView === 'week') {
+        if (window._gcalView === 'week') {
 
           html += '<div style="font-size:13px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin:18px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">' +
 
@@ -353,7 +353,7 @@ function printPage() {
 
     // Day view only: append Active Goal Tasks section
 
-    if (_gcalView === 'day') {
+    if (window._gcalView === 'day') {
 
       var goalTasks = getActiveGoalTasks();
 
@@ -488,7 +488,7 @@ showModal = function(id) {
     // persist a snapshot of the draft on open
     try {
       var titleEl = document.getElementById('t-title');
-      _uiPersistSave({modal:'addtask', date:_addTaskDate, title:titleEl?titleEl.value:''});
+      _uiPersistSave({modal:'addtask', date:window._addTaskDate, title:titleEl?titleEl.value:''});
     } catch(e){}
   }
 };
@@ -670,9 +670,9 @@ function gsearchRun() {
 
     // --- Tasks (read-only, all dates) ---
 
-    Object.keys(_tasks).forEach(function(dk) {
+    Object.keys(window._tasks).forEach(function(dk) {
 
-      (_tasks[dk]||[]).forEach(function(t) {
+      (window._tasks[dk]||[]).forEach(function(t) {
 
         var tt = (t.title||'').toLowerCase();
 

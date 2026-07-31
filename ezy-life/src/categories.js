@@ -5,7 +5,7 @@ function buildTaskColorPicker() {
 
   el.innerHTML = EVT_COLORS.map(function(c){
 
-    return '<div class="evt-color-dot'+(c.val===_selectedTaskColor?' selected':'')+'" style="background:'+c.val+'" title="'+c.label+'" onclick="selectTaskColor(\''+c.val+'\')"></div>';
+    return '<div class="evt-color-dot'+(c.val===window._selectedTaskColor?' selected':'')+'" style="background:'+c.val+'" title="'+c.label+'" onclick="selectTaskColor(\''+c.val+'\')"></div>';
 
   }).join('');
 
@@ -13,7 +13,7 @@ function buildTaskColorPicker() {
 
 function selectTaskColor(val) {
 
-  _selectedTaskColor = val;
+  window._selectedTaskColor = val;
 
   buildTaskColorPicker();
 
@@ -227,11 +227,11 @@ function mcatAdd() {
 
   _mcatNewEmoji = null; _mcatNewIconUrl = null;
 
-  var newCat = { id: _nextCatId++, name: name, emoji: emoji, iconUrl: iconUrl };
+  var newCat = { id: window._nextCatId++, name: name, emoji: emoji, iconUrl: iconUrl };
 
   categories.push(newCat);
 
-  localStorage.setItem('ezy_next_cat_id', _nextCatId);
+  localStorage.setItem('ezy_next_cat_id', window._nextCatId);
 
   if (nameEl) nameEl.value = '';
   var resetBtn = document.getElementById('mcat-new-ep-btn');
@@ -263,11 +263,11 @@ function addCustomCategory() {
 
   var tmp = document.createElement('span'); tmp.innerHTML = emoji; emoji = tmp.textContent || emoji;
 
-  var newCat = { id: _nextCatId++, name: name, emoji: emoji };
+  var newCat = { id: window._nextCatId++, name: name, emoji: emoji };
 
   categories.push(newCat);
 
-  localStorage.setItem('ezy_next_cat_id', _nextCatId);
+  localStorage.setItem('ezy_next_cat_id', window._nextCatId);
 
   saveData();
 
@@ -289,7 +289,7 @@ function addCustomCategory() {
 
 function openCatModal() {
 
-  _newCatEmoji='⭐';
+  window._newCatEmoji='⭐';
 
   document.getElementById('new-cat-emoji').textContent='⭐';
 
@@ -299,7 +299,7 @@ function openCatModal() {
 
   renderKanban();
 
-  buildEP('new',function(emoji){ _newCatEmoji=emoji; document.getElementById('new-cat-emoji').textContent=emoji; });
+  buildEP('new',function(emoji){ window._newCatEmoji=emoji; document.getElementById('new-cat-emoji').textContent=emoji; });
 
   showModal('cats');
 
@@ -435,15 +435,15 @@ function addCat(){
 
   if(categories.find(function(c){ return c.name.toLowerCase()===name.toLowerCase(); })){ alert('That category already exists.'); return; }
 
-  categories.push({id:_nextCatId++,name:name,emoji:_newCatEmoji});
+  categories.push({id:window._nextCatId++,name:name,emoji:window._newCatEmoji});
 
-  _newCatEmoji='⭐'; document.getElementById('new-cat-emoji').textContent='⭐'; document.getElementById('new-cat-name').value='';
+  window._newCatEmoji='⭐'; document.getElementById('new-cat-emoji').textContent='⭐'; document.getElementById('new-cat-name').value='';
 
   renderCatList();
 
   renderKanban();
 
-  buildEP('new',function(emoji){ _newCatEmoji=emoji; document.getElementById('new-cat-emoji').textContent=emoji; });
+  buildEP('new',function(emoji){ window._newCatEmoji=emoji; document.getElementById('new-cat-emoji').textContent=emoji; });
 
   saveData();
 

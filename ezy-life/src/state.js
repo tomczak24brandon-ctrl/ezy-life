@@ -16,9 +16,9 @@ function saveData() {
       localStorage.setItem('ezy_goals_v2', JSON.stringify(goals));
       // Notes sourced from Google Tasks; skip localStorage write for notes
       localStorage.setItem('ezy_categories_v2', JSON.stringify(categories));
-      localStorage.setItem('ezy_next_cat_id', String(_nextCatId));
-      // Time-blocking tasks sourced from Google Calendar; skip localStorage write for _tasks
-      localStorage.setItem('ezy_next_task_id', String(_nextTaskId));
+      localStorage.setItem('ezy_next_cat_id', String(window._nextCatId));
+      // Time-blocking tasks sourced from Google Calendar; skip localStorage write for window._tasks
+      localStorage.setItem('ezy_next_task_id', String(window._nextTaskId));
       localStorage.setItem('ezy_sub_id_ctr', String(_subIdCtr));
       localStorage.setItem('ezy_vehicles_v1', JSON.stringify(_vehicles));
       localStorage.setItem('ezy_bizdata_v1', JSON.stringify(_bizData));
@@ -35,8 +35,8 @@ function saveData() {
   userRef.collection('data').doc('main').set({
     goals: goals,
     categories: categories,
-    nextCatId: _nextCatId,
-    nextTaskId: _nextTaskId,
+    nextCatId: window._nextCatId,
+    nextTaskId: window._nextTaskId,
     subIdCtr: _subIdCtr,
     vehicles: _vehicles,
     bizData: _bizData,
@@ -57,16 +57,16 @@ function loadData() {
     try {
       var g = localStorage.getItem('ezy_goals_v2'); if (g) goals = JSON.parse(g);
       var cv = localStorage.getItem('ezy_categories_v2'); if (cv) categories = JSON.parse(cv);
-      var nc = localStorage.getItem('ezy_next_cat_id'); if (nc) _nextCatId = parseInt(nc,10) || _nextCatId;
-      categories.forEach(function(x){ if(x.id >= _nextCatId) _nextCatId = x.id + 1; });
-      var nt = localStorage.getItem('ezy_next_task_id'); if (nt) _nextTaskId = parseInt(nt,10) || 1;
+      var nc = localStorage.getItem('ezy_next_cat_id'); if (nc) window._nextCatId = parseInt(nc,10) || window._nextCatId;
+      categories.forEach(function(x){ if(x.id >= window._nextCatId) window._nextCatId = x.id + 1; });
+      var nt = localStorage.getItem('ezy_next_task_id'); if (nt) window._nextTaskId = parseInt(nt,10) || 1;
       var sc = localStorage.getItem('ezy_sub_id_ctr'); if (sc) _subIdCtr = parseInt(sc,10) || 1;
       var veh = localStorage.getItem('ezy_vehicles_v1'); if (veh) _vehicles = JSON.parse(veh);
       var bd = localStorage.getItem('ezy_bizdata_v1'); if (bd) _bizData = JSON.parse(bd);
       var bgt = localStorage.getItem('ezy_budgets_v1'); if (bgt) _budgets = JSON.parse(bgt);
       var cbk = localStorage.getItem('ezy_checkbooks_v1'); if (cbk) _checkbooks = JSON.parse(cbk);
       var fin = localStorage.getItem('ezy_finaccounts_v1'); if (fin) _finAccounts = JSON.parse(fin);
-      // Notes and _tasks are loaded from Google APIs after auth; skip localStorage restore
+      // Notes and window._tasks are loaded from Google APIs after auth; skip localStorage restore
     } catch(e) {}
     window._dataLoaded = true;
     return Promise.resolve();
@@ -80,16 +80,16 @@ function loadData() {
         var d = doc.data();
         if (d.goals)        goals       = d.goals;
         if (d.categories)   categories  = d.categories;
-        if (d.nextCatId)    _nextCatId  = d.nextCatId;
-        if (d.nextTaskId)   _nextTaskId = d.nextTaskId;
+        if (d.nextCatId)    window._nextCatId  = d.nextCatId;
+        if (d.nextTaskId)   window._nextTaskId = d.nextTaskId;
         if (d.subIdCtr)     _subIdCtr   = d.subIdCtr;
         if (d.vehicles)     _vehicles   = d.vehicles;
         if (d.bizData)      _bizData    = d.bizData;
         if (d.budgets)      _budgets    = d.budgets;
         if (d.checkbooks)   _checkbooks = d.checkbooks;
         if (d.finAccounts)  _finAccounts = d.finAccounts;
-        // notes and _tasks intentionally excluded � fetched from Google Calendar/Tasks APIs
-        categories.forEach(function(x){ if(x.id >= _nextCatId) _nextCatId = x.id + 1; });
+        // notes and window._tasks intentionally excluded � fetched from Google Calendar/Tasks APIs
+        categories.forEach(function(x){ if(x.id >= window._nextCatId) window._nextCatId = x.id + 1; });
         window._dataLoaded = true;
         console.log('Loaded data from Firestore for uid:', window._fbUid);
       } else {
@@ -114,9 +114,9 @@ var _maintVehicleId = null;
 
 function appInit() {
 
-  _gcalAnchor = new Date();
+  window._gcalAnchor = new Date();
 
-  _calDate = new Date();
+  window._calDate = new Date();
 
   // Version gate: track app version for future migrations (no longer resets sidebar)
 
@@ -163,7 +163,7 @@ function appInit() {
 
 setInterval(function(){
 
-  if(document.getElementById('page-timeblocking').classList.contains('active') && _gcalView !== 'month') {
+  if(document.getElementById('page-timeblocking').classList.contains('active') && window._gcalView !== 'month') {
 
     var lines = document.querySelectorAll('.gcal-now-wrap');
 

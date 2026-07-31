@@ -1,4 +1,4 @@
-﻿// ===== BUDGET STUBS (actual budget logic is in financials.js) =====
+// ===== BUDGET STUBS (actual budget logic is in financials.js) =====
 
 // ===== GLOBAL SEARCH =====
 // ===== GLOBAL SEARCH =====
@@ -47,7 +47,7 @@ function gsearchRun() {
 
         var sub = []; if (g.category) sub.push(g.category); if (g.targetDate) sub.push('Due '+g.targetDate);
 
-        results.push({ section:'Goals', icon:'&#127919;', title: g.title, sub: sub.join(' � '), action: function(gid){ return function(){ showPage('goals'); setTimeout(function(){ if(typeof openGoalDetail==='function') openGoalDetail(gid); },150); }; }(g.id) });
+        results.push({ section:'Goals', icon:'&#127919;', title: g.title, sub: sub.join(' ? '), action: function(gid){ return function(){ showPage('goals'); setTimeout(function(){ if(typeof openGoalDetail==='function') openGoalDetail(gid); },150); }; }(g.id) });
 
       }
 
@@ -65,9 +65,9 @@ function gsearchRun() {
 
     // --- Tasks (read-only, all dates) ---
 
-    Object.keys(_tasks).forEach(function(dk) {
+    Object.keys(window._tasks).forEach(function(dk) {
 
-      (_tasks[dk]||[]).forEach(function(t) {
+      (window._tasks[dk]||[]).forEach(function(t) {
 
         var tt = (t.title||'').toLowerCase();
 
@@ -81,7 +81,7 @@ function gsearchRun() {
 
           if ((s.title||'').toLowerCase().indexOf(q) >= 0) {
 
-            results.push({ section:'Tasks', icon:'&#9989;', title: s.title, sub: 'Subtask on '+dk+' � '+t.title, action: function(dkk, tid){ return function(){ showPage('timeblocking'); setTimeout(function(){ if(typeof _tbDate!=='undefined') _tbDate=dkk; if(typeof renderTimeblocking==='function') renderTimeblocking(); setTimeout(function(){ if(typeof gcalOpenTask==='function') gcalOpenTask(dkk,tid); },180); },150); }; }(dk, t.id) });
+            results.push({ section:'Tasks', icon:'&#9989;', title: s.title, sub: 'Subtask on '+dk+' ? '+t.title, action: function(dkk, tid){ return function(){ showPage('timeblocking'); setTimeout(function(){ if(typeof _tbDate!=='undefined') _tbDate=dkk; if(typeof renderTimeblocking==='function') renderTimeblocking(); setTimeout(function(){ if(typeof gcalOpenTask==='function') gcalOpenTask(dkk,tid); },180); },150); }; }(dk, t.id) });
 
           }
 

@@ -246,9 +246,9 @@ function updateTdSub(i, text) { if (_tdSubs[i]) _tdSubs[i].title = (text||'').tr
 
 function tdSave() {
 
-  if (!_editingTaskDk) return;
+  if (!window._editingTaskDk) return;
 
-  var t = (_tasks[_editingTaskDk]||[]).find(function(x){return x.id===_editingTaskId;});
+  var t = (window._tasks[window._editingTaskDk]||[]).find(function(x){return x.id===window._editingTaskId;});
 
   if (!t) return;
 
@@ -276,17 +276,17 @@ function tdSave() {
 
   // Date change
 
-  var newDk = (document.getElementById('td-date-input')||{}).value || _editingTaskDk;
+  var newDk = (document.getElementById('td-date-input')||{}).value || window._editingTaskDk;
 
-  if (newDk && newDk !== _editingTaskDk) {
+  if (newDk && newDk !== window._editingTaskDk) {
 
-    _tasks[_editingTaskDk] = (_tasks[_editingTaskDk]||[]).filter(function(x){return x.id!==_editingTaskId;});
+    window._tasks[window._editingTaskDk] = (window._tasks[window._editingTaskDk]||[]).filter(function(x){return x.id!==window._editingTaskId;});
 
-    if (!_tasks[newDk]) _tasks[newDk] = [];
+    if (!window._tasks[newDk]) window._tasks[newDk] = [];
 
-    _tasks[newDk].push(t);
+    window._tasks[newDk].push(t);
 
-    _editingTaskDk = newDk;
+    window._editingTaskDk = newDk;
 
   }
 
@@ -303,9 +303,9 @@ function tdDelete() {
 
   if (!confirm('Delete this task?')) return;
 
-  if (_tasks[_editingTaskDk]) {
+  if (window._tasks[window._editingTaskDk]) {
 
-    _tasks[_editingTaskDk] = _tasks[_editingTaskDk].filter(function(x){return x.id!==_editingTaskId;});
+    window._tasks[window._editingTaskDk] = window._tasks[window._editingTaskDk].filter(function(x){return x.id!==window._editingTaskId;});
 
   }
 
@@ -320,21 +320,21 @@ function tdDelete() {
 
 function openAddTaskModal(dk, hour) {
 
-  _newSubs = []; renderNewSubList();
+  window._newSubs = []; renderNewSubList();
 
-  _selectedTaskColor = '#1f6feb';
+  window._selectedTaskColor = '#1f6feb';
 
   buildTaskColorPicker();
 
-  var d = dk ? new Date(dk+'T12:00:00') : new Date(_gcalAnchor);
+  var d = dk ? new Date(dk+'T12:00:00') : new Date(window._gcalAnchor);
 
-  _addTaskDate = tbDateKey(d);
+  window._addTaskDate = tbDateKey(d);
 
   var h = (hour !== null && hour !== undefined) ? hour : 9;
 
   if (h < 0) h = 0; if (h > 23) h = 23;
 
-  _isPM = h >= 12;
+  window._isPM = h >= 12;
 
   var h12 = h === 0 ? 12 : h > 12 ? h-12 : h;
 
@@ -342,15 +342,15 @@ function openAddTaskModal(dk, hour) {
 
   document.getElementById('t-min').value = '0';
 
-  var tamBtn = document.getElementById('t-am-btn'); if(tamBtn) tamBtn.classList.toggle('active', !_isPM);
+  var tamBtn = document.getElementById('t-am-btn'); if(tamBtn) tamBtn.classList.toggle('active', !window._isPM);
 
-  var tpmBtn = document.getElementById('t-pm-btn'); if(tpmBtn) tpmBtn.classList.toggle('active', _isPM);
+  var tpmBtn = document.getElementById('t-pm-btn'); if(tpmBtn) tpmBtn.classList.toggle('active', window._isPM);
 
   // end time = start + 1 hour
 
   var eh = h + 1;
 
-  _isEndPM = eh >= 12;
+  window._isEndPM = eh >= 12;
 
   var eh12 = eh === 0 ? 12 : eh > 12 ? eh-12 : eh;
 
@@ -358,9 +358,9 @@ function openAddTaskModal(dk, hour) {
 
   document.getElementById('t-emin').value = '0';
 
-  var teamBtn = document.getElementById('t-eam-btn'); if(teamBtn) teamBtn.classList.toggle('active', !_isEndPM);
+  var teamBtn = document.getElementById('t-eam-btn'); if(teamBtn) teamBtn.classList.toggle('active', !window._isEndPM);
 
-  var tepmBtn = document.getElementById('t-epm-btn'); if(tepmBtn) tepmBtn.classList.toggle('active', _isEndPM);
+  var tepmBtn = document.getElementById('t-epm-btn'); if(tepmBtn) tepmBtn.classList.toggle('active', window._isEndPM);
 
   document.getElementById('t-title').value = '';
 
@@ -386,19 +386,19 @@ function openAddTaskModal(dk, hour) {
 
   showModal('addtask');
 
-  clockInitFace('t','start', h12, 0, _isPM);
+  clockInitFace('t','start', h12, 0, window._isPM);
 
-  clockInitFace('t','end', (eh12 > 12 ? eh12-12 : eh12), 0, _isEndPM);
+  clockInitFace('t','end', (eh12 > 12 ? eh12-12 : eh12), 0, window._isEndPM);
 
-  setTimeout(function(){ var inp = document.getElementById('addtask-date-input'); if(inp) inp.value = _addTaskDate; }, 0);
+  setTimeout(function(){ var inp = document.getElementById('addtask-date-input'); if(inp) inp.value = window._addTaskDate; }, 0);
 
 }
 
-function addTaskDateChanged(val) { if (val) _addTaskDate = val; }
+function addTaskDateChanged(val) { if (val) window._addTaskDate = val; }
 
 var _subIdCtr=1;
 
-function addNewSub(){ var inp=document.getElementById('new-sub-input'); var title=(inp.value||'').trim(); if(!title)return; _newSubs.push({id:_subIdCtr++,title:title,done:false,rdate:null}); inp.value=''; renderNewSubList(); }
+function addNewSub(){ var inp=document.getElementById('new-sub-input'); var title=(inp.value||'').trim(); if(!title)return; window._newSubs.push({id:_subIdCtr++,title:title,done:false,rdate:null}); inp.value=''; renderNewSubList(); }
 
 function renderNewSubList() {
 
@@ -406,7 +406,7 @@ function renderNewSubList() {
 
   if (!el) return;
 
-  if (_newSubs.length === 0) {
+  if (window._newSubs.length === 0) {
 
     el.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:4px 0 6px">No sub-tasks yet.</div>';
 
@@ -414,7 +414,7 @@ function renderNewSubList() {
 
   }
 
-  el.innerHTML = _newSubs.map(function(s, i) {
+  el.innerHTML = window._newSubs.map(function(s, i) {
 
     return '<div class="kcard-step-row" data-nsidx="'+i+'" draggable="false">'
 
@@ -506,7 +506,7 @@ function renderNewSubList() {
 
       if (_nsGlobalDragSrc === null || _nsGlobalDragSrc === idx) return;
 
-      var moved = _newSubs.splice(_nsGlobalDragSrc, 1)[0];
+      var moved = window._newSubs.splice(_nsGlobalDragSrc, 1)[0];
 
       var newIdx = before ? idx : idx + 1;
 
@@ -514,7 +514,7 @@ function renderNewSubList() {
 
       if (newIdx < 0) newIdx = 0;
 
-      _newSubs.splice(newIdx, 0, moved);
+      window._newSubs.splice(newIdx, 0, moved);
 
       _nsGlobalDragSrc = null;
 
@@ -544,13 +544,13 @@ function renderNewSubList() {
 
 function updateNewSub(i, text) {
 
-  if (_newSubs[i]) _newSubs[i].title = (text || '').trim() || _newSubs[i].title;
+  if (window._newSubs[i]) window._newSubs[i].title = (text || '').trim() || window._newSubs[i].title;
 
 }
 
 var _nsGlobalDragSrc = null;
 
-function remNewSub(i){ _newSubs.splice(i,1); renderNewSubList(); }
+function remNewSub(i){ window._newSubs.splice(i,1); renderNewSubList(); }
 
 // ===== CUSTOM REMINDER PANEL =====
 
@@ -764,13 +764,13 @@ function expandRecurringTask(task, originKey) {
 
     var dk = cur.getFullYear()+'-'+('0'+(cur.getMonth()+1)).slice(-2)+'-'+('0'+cur.getDate()).slice(-2);
 
-    if (!_tasks[dk]) _tasks[dk] = [];
+    if (!window._tasks[dk]) window._tasks[dk] = [];
 
     // Avoid duplicates
 
-    var exists = _tasks[dk].some(function(t){ return t.recurId === task.id; });
+    var exists = window._tasks[dk].some(function(t){ return t.recurId === task.id; });
 
-    if (!exists) _tasks[dk].push({id:_nextTaskId++,recurId:task.id,title:task.title,time:task.time,endTime:task.endTime,done:false,color:task.color,subtasks:[],reminder:task.reminder,rrule:'',originDate:task.originDate,isRecurring:true});
+    if (!exists) window._tasks[dk].push({id:window._nextTaskId++,recurId:task.id,title:task.title,time:task.time,endTime:task.endTime,done:false,color:task.color,subtasks:[],reminder:task.reminder,rrule:'',originDate:task.originDate,isRecurring:true});
 
     count++;
 
@@ -828,9 +828,9 @@ function scheduleTaskReminder(task, dateKey) {
 
 function rescheduleAllReminders() {
 
-  Object.keys(_tasks || {}).forEach(function(dk) {
+  Object.keys(window._tasks || {}).forEach(function(dk) {
 
-    (_tasks[dk] || []).forEach(function(t) {
+    (window._tasks[dk] || []).forEach(function(t) {
 
       if (t.reminder && t.reminder !== '' && !t.isRecurring) scheduleTaskReminder(t, dk);
 
@@ -847,7 +847,7 @@ function saveTask(){
 
   if(!title){alert('Please enter a task title.');return;}
 
-  var dateInp = document.getElementById('addtask-date-input'); var key = (dateInp && dateInp.value) ? dateInp.value : (_addTaskDate || tbDateKey(new Date()));
+  var dateInp = document.getElementById('addtask-date-input'); var key = (dateInp && dateInp.value) ? dateInp.value : (window._addTaskDate || tbDateKey(new Date()));
 
   var reminderMins = getReminderMinutes();
 
@@ -855,11 +855,11 @@ function saveTask(){
 
   var rruleVal = getEffectiveRrule(key);
 
-  var taskObj = {id:_nextTaskId++,title:title,time:getPickedTime(),endTime:getPickedEndTime(),done:false,color:_selectedTaskColor,subtasks:_newSubs.slice(),reminder:reminderVal,rrule:rruleVal,originDate:key};
+  var taskObj = {id:window._nextTaskId++,title:title,time:getPickedTime(),endTime:getPickedEndTime(),done:false,color:window._selectedTaskColor,subtasks:window._newSubs.slice(),reminder:reminderVal,rrule:rruleVal,originDate:key};
 
-  if(!_tasks[key])_tasks[key]=[];
+  if(!window._tasks[key])window._tasks[key]=[];
 
-  _tasks[key].push(taskObj);
+  window._tasks[key].push(taskObj);
 
   // Expand recurrence into visible range (2 years forward)
 
@@ -869,7 +869,7 @@ function saveTask(){
 
   if (reminderVal !== '') scheduleTaskReminder(taskObj, key);
 
-  _newSubs=[];
+  window._newSubs=[];
 
   var subInp=document.getElementById('new-sub-input'); if(subInp) subInp.value='';
 

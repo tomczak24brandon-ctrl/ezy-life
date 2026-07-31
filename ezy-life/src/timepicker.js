@@ -78,7 +78,7 @@ function _mtpSyncAMPM(p,slot,isPM) {
   var amEl=document.getElementById(amId), pmEl=document.getElementById(pmId);
   if(amEl) amEl.classList.toggle('active',!isPM);
   if(pmEl) pmEl.classList.toggle('active',isPM);
-  try { if(p==='td'){ if(slot==='start') _tdIsStartPM=isPM; else _tdIsEndPM=isPM; } else { if(slot==='start') _isStartPM=isPM; else _isEndPM=isPM; } } catch(e){}
+  try { if(p==='td'){ if(slot==='start') _tdIsStartPM=isPM; else _tdIsEndPM=isPM; } else { if(slot==='start') _isStartPM=isPM; else window._isEndPM=isPM; } } catch(e){}
 }
 
 function _mtpAutoEndAMPM(p) {
