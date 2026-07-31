@@ -1,0 +1,38 @@
+      } else if (grp.id === 'financials') {
+
+        // Financials: name navigates to dashboard, arrow toggles collapse
+        html += '<div class="sg-grp-header" onclick="sgToggleCollapse('+gi+')" style="flex:1;">';
+        html += '<div class="sg-grp-header-inner">';
+        html += '<span class="sg-grp-header-name" ondblclick="event.stopPropagation();sgRename('+gi+')" onclick="event.stopPropagation();showPage(\'fin-dashboard\')" style="cursor:pointer;">'+esc(grp.name)+'</span>';
+        html += '<span class="sg-grp-header-arrow">'+arrow+'</span>';
+        html += '</div></div></div>';
+
+        if (!collapsed) {
+          html += '<div class="sg-items">';
+          var _finCats = Array.isArray(_finCategories) ? _finCategories : [];
+          if (!_finCats.length) {
+            html += '<div style="padding:6px 14px;font-size:12px;color:var(--text3);font-style:italic;">No categories yet</div>';
+          } else {
+            _finCats.forEach(function(cat) {
+              var catIsActive = (_currentFinCategoryId === cat.id);
+              var catCollapsedKey = 'fincat-' + cat.id;
+              var catCollapsed = !!_sgCollapsed[catCollapsedKey];
+              var catArrow = catCollapsed ? '&#9654;' : '&#9660;';
+              var catAccts = (_finAccounts.all || []).filter(function(a){ return a.categoryId === cat.id; });
+              html += '<div style="display:flex;align-items:center;padding:5px 8px 5px 12px;cursor:pointer;border-radius:7px;">';
+              html += '<span onclick="openFinCategory(\''+cat.id+'\')" style="flex:1;font-size:13px;font-weight:600;'+(catIsActive?'color:var(--accent2);':'color:var(--text2);')+'">'+esc(cat.icon||'📂')+' '+esc(cat.name)+'</span>';
+              html += '<span onclick="event.stopPropagation();sgFinCatToggle(\''+catCollapsedKey+'\')" style="font-size:11px;color:var(--text3);padding:0 4px;user-select:none;">'+catArrow+'</span>';
+              html += '</div>';
+              if (!catCollapsed) {
+                catAccts.forEach(function(acct) {
+                  var isActiveAcct = (_currentFinAccountId === acct.id);
+                  html += '<div class="nav-item" onclick="setFinCatAndAddAcct_nav(\''+cat.id+'\',\''+acct.id+'\')" style="display:flex;align-items:center;padding-left:24px;'+(isActiveAcct?'color:var(--accent2);font-weight:700;':'')+'"><span style="margin-right:6px;font-size:12px;">'+esc(acct.icon||'💳')+'</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;">'+esc(acct.name)+'</span></div>';
+                });
+                html += '<div class="nav-item" onclick="setFinCatAndAddAcct(\''+cat.id+'\')" style="display:flex;align-items:center;padding-left:24px;color:var(--accent2);font-size:12px;"><span style="margin-right:6px;">+</span><span>Add Account</span></div>';
+              }
+            });
+          }
+          html += '<div class="nav-item" onclick="openAddFinCategoryModal()" style="display:flex;align-items:center;color:var(--accent2);font-weight:700;"><span style="width:18px;flex-shrink:0;margin-right:6px;text-align:center;font-size:16px;">+</span><span>Add Category</span></div>';
+          html += '</div>';
+        }
+

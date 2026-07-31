@@ -1,0 +1,164 @@
+
+// ===== FINANCIALS DASHBOARD (Category Grid) =====
+function renderFinDashboard() {
+  var wrap = document.getElementById('fin-dash-content');
+  if (!wrap) return;
+  migrateFinCategories(); // ensure schema is up to date
+
+  var html = '';
+  if (!_finCategories || !_finCategories.length) {
+    html += '<div class="empty-state"><div class="empty-icon">📁</div><div class="empty-text">No categories yet.<br>Add your first one above!</div></div>';
+  } else {
+    html += '<div class="fin-dash-grid">';
+    _finCategories.forEach(function(cat) {
+      var catAccounts = (_finAccounts.all || []).filter(function(a){ return a.categoryId === cat.id; });
+      var totalBal = catAccounts.reduce(function(sum, a){ return sum + (getAccountBalance(a) || 0); }, 0);
+      var balColor = totalBal >= 0 ? 'var(--green)' : 'var(--red)';
+      html += '<div class="fin-dash-card" onclick="openFinCategory(\'' + cat.id + '\')" style="position:relative;">'
+        + '<div style="position:absolute;top:8px;right:8px;font-size:11px;color:var(--text3);cursor:pointer;" onclick="event.stopPropagation();editFinCategory(\'' + cat.id + '\')">&#9998;</div>'
+        + '<div class="fin-dash-card-icon">' + esc(cat.icon || '📂') + '</div>'
+        + '<div class="fin-dash-card-name">' + esc(cat.name) + '</div>'
+        + '<div class="fin-dash-card-meta">' + catAccounts.length + ' account' + (catAccounts.length !== 1 ? 's' : '') + '</div>'
+        + '<div class="fin-dash-card-bal" style="color:' + balColor + '">$' + Math.abs(totalBal).toFixed(2) + (totalBal < 0 ? ' <span style="font-size:11px;color:var(--red)">owed</span>' : '') + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+  }
+  wrap.innerHTML = html;
+}
+
+function openFinCategory(catId) {
+  _currentFinCategoryId = catId;
+  var cat = (_finCategories || []).find(function(c){ return c.id === catId; });
+  var titleEl = document.getElementById('fin-cat-view-title');
+  if (titleEl && cat) titleEl.textContent = (cat.icon || '📂') + ' ' + cat.name;
+  showPage('fin-cat-view');
+}
+
+function renderFinCatView() {
+  var wrap = document.getElementById('fin-cat-content');
+  if (!wrap) return;
+  var catAccounts = (_finAccounts.all || []).filter(function(a){ return a.categoryId === _currentFinCategoryId; });
+  var html = '';
+  if (!catAccounts.length) {
+    html += '<div class="empty-state"><div class="empty-icon">🏦</div><div class="empty-text">No accounts in this category yet.<br>Add one above!</div></div>';
+  } else {
+    html += '<div class="fin-dash-grid">';
+    catAccounts.forEach(function(a) {
+      var bal = getAccountBalance(a);
+      var balColor = bal >= 0 ? 'var(--green)' : 'var(--red)';
+      var typeLabel = { checking:'Checking', savings:'Savings', credit:'Credit Card', loan:'Loan', investment:'Investment', other:'Other' }[a.type] || a.type;
+      html += '<div class="fin-dash-card" onclick="openFinAccount(\'' + a.id + '\')">'
+        + '<div class="fin-dash-card-icon">' + esc(a.icon || '💳') + '</div>'
+        + '<div class="fin-dash-card-name">' + esc(a.name) + '</div>'
+        + '<div class="fin-dash-card-meta">' + typeLabel + '</div>'
+        + '<div class="fin-dash-card-bal" style="color:' + balColor + '">$' + Math.abs(bal).toFixed(2) + (bal < 0 ? ' <span style="font-size:11px;color:var(--red)">owed</span>' : '') + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+  }
+  wrap.innerHTML = html;
+}
+
+function openAddFinCategoryModal() {
+  var el = document.getElementById('modal-addfincat');
+  if (el) { el.style.display = 'flex'; el.style.visibility = ''; }
+  var ni = document.getElementById('fin-cat-name');
+  var ii = document.getElementById('fin-cat-icon');
+  if (ni) ni.value = '';
+  if (ii) ii.value = '';
+}
+
+function saveFinCategory() {
+  var nameEl = document.getElementById('fin-cat-name');
+  var iconEl = document.getElementById('fin-cat-icon');
+  var name = (nameEl ? nameEl.value.trim() : '');
+  var icon = (iconEl ? iconEl.value.trim() : '') || '📂';
+  if (!name) { alert('Enter a category name.'); return; }
+
+  // Close modal first
+  var el = document.getElementById('modal-addfincat');
+  if (el) { el.style.display = 'none'; }
+
+  var cat = { id: 'cat-' + Date.now(), name: name, icon: icon, color: 'var(--accent)' };
+  if (!Array.isArray(_finCategories)) _finCategories = [];
+  _finCategories.push(cat);
+  saveData();
+  renderSidebar();
+  showPage('fin-dashboard');
+}
+
+function editFinCategory(catId) {
+  var cat = (_finCategories || []).find(function(c){ return c.id === catId; });
+  if (!cat) return;
+  var newName = prompt('Category name:', cat.name);
+  if (newName === null) return;
+  newName = newName.trim();
+  if (!newName) return;
+  var newIcon = prompt('Icon (emoji):', cat.icon || '📂');
+  if (newIcon === null) return;
+  cat.name = newName;
+  cat.icon = newIcon.trim() || '📂';
+  saveData();
+  renderSidebar();
+  renderFinDashboard();
+}
+
+function openFinAccount(acctId) {
+  var acct = (_finAccounts.all || []).find(function(a){ return a.id === acctId; });
+  if (!acct) return;
+  _currentFinAccountId = acctId;
+  // Activate fin-budgets page manually
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var pg = document.getElementById('page-fin-budgets');
+  if (pg) pg.classList.add('active');
+  _currentPage = 'fin-budgets';
+  history.pushState({page:'fin-budgets'}, '', window.location.pathname + '?view=fin-budgets');
+  highlightNav('fin-budgets');
+  renderFinAccount(acct);
+  renderSidebar();
+}
+
+function openAddFinAccountModal() {
+  var modalEl = document.getElementById('modal-addfin');
+  if (modalEl) { modalEl.style.visibility = ''; modalEl.style.display = 'flex'; }
+}
+
+function saveFinAccount() {
+  var name = document.getElementById('fin-acct-name').value.trim();
+  var type = document.getElementById('fin-acct-type').value;
+  if (!name) { alert('Enter an account name.'); return; }
+
+  // Close modal FIRST
+  var modalEl = document.getElementById('modal-addfin');
+  if (modalEl) { modalEl.style.display = 'none'; modalEl.style.visibility = 'hidden'; }
+  var nameEl = document.getElementById('fin-acct-name');
+  if (nameEl) nameEl.value = '';
+
+  var icons = { checking:'🏦', savings:'💰', credit:'💳', loan:'📋', investment:'📈', budget:'📊', checkbook:'📒', other:'💳' };
+  var acct = {
+    id: 'fin-' + Date.now(),
+    name: name,
+    type: type,
+    icon: icons[type] || '💳',
+    categoryId: _currentFinCategoryId || 'cat-default',
+    openingBalance: 0,
+    transactions: [],
+    budgetData: {}
+  };
+
+  if (!_finAccounts.all) _finAccounts.all = [];
+  _finAccounts.all.push(acct);
+  saveData();
+
+  // Navigate into the new account
+  _currentFinAccountId = acct.id;
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var pg = document.getElementById('page-fin-budgets');
+  if (pg) pg.classList.add('active');
+  _currentPage = 'fin-budgets';
+  history.pushState({page:'fin-budgets'}, '', window.location.pathname + '?view=fin-budgets');
+  highlightNav('fin-budgets');
+  renderFinAccount(acct);
+  renderSidebar();
+}

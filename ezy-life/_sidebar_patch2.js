@@ -1,0 +1,1 @@
+                html += '<div class="nav-item" onclick="setFinCatAndAddAcct(' + JSON.stringify(cat.id) + ')" style="display:flex;align-items:center;padding-left:24px;color:var(--accent2);font-size:12px;"><span style="margin-right:6px;">+</span><span>Add Account</span></div>';

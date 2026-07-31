@@ -1,0 +1,39 @@
+function saveFinAccount() {
+  var name = document.getElementById('fin-acct-name').value.trim();
+  var type = document.getElementById('fin-acct-type').value;
+  if (!name) { alert('Enter an account name.'); return; }
+
+  // Close modal FIRST
+  var modalEl = document.getElementById('modal-addfin');
+  if (modalEl) { modalEl.style.display = 'none'; modalEl.style.visibility = 'hidden'; }
+  var nameEl = document.getElementById('fin-acct-name');
+  if (nameEl) nameEl.value = '';
+
+  var icons = { checking:'🏦', savings:'💰', credit:'💳', loan:'📋', investment:'📈', budget:'📊', checkbook:'📝', other:'💼' };
+  var acct = {
+    id: 'fin-' + Date.now(),
+    name: name,
+    type: type,
+    icon: icons[type] || '💼',
+    categoryId: _currentFinCategoryId || 'cat-default',
+    openingBalance: 0,
+    transactions: [],
+    budgetData: {}
+  };
+
+  if (!_finAccounts.all) _finAccounts.all = [];
+  _finAccounts.all.push(acct);
+  saveData();
+  renderSidebar();
+
+  // Navigate into the new account ledger
+  _currentFinAccountId = acct.id;
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var pg = document.getElementById('page-fin-budgets');
+  if (pg) pg.classList.add('active');
+  _currentPage = 'fin-budgets';
+  history.pushState({page:'fin-budgets'}, '', window.location.pathname + '?view=fin-budgets');
+  highlightNav('fin-budgets');
+  renderFinAccount(acct);
+}
+

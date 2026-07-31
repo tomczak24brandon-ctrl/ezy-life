@@ -1,0 +1,88 @@
+// ===== FIN CATEGORY DRAG-AND-DROP STATE =====
+var _finCatDragSrc = null;
+
+function finCatDragStart(e, catId) {
+  _finCatDragSrc = catId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('fincat', catId);
+  setTimeout(function(){ if (e.target) e.target.style.opacity = '0.4'; }, 0);
+}
+
+function finCatDragOver(e, catId) {
+  if (!_finCatDragSrc || _finCatDragSrc === catId) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function finCatDrop(e, catId) {
+  e.preventDefault();
+  if (!_finCatDragSrc || _finCatDragSrc === catId) return;
+  var arr = _finCategories || [];
+  var fromIdx = arr.findIndex(function(c){ return c.id === _finCatDragSrc; });
+  var toIdx   = arr.findIndex(function(c){ return c.id === catId; });
+  if (fromIdx < 0 || toIdx < 0) return;
+  var moved = arr.splice(fromIdx, 1)[0];
+  arr.splice(toIdx, 0, moved);
+  _finCategories = arr;
+  saveData();
+  renderSidebar();
+  renderFinDashboard();
+}
+
+function finCatDragEnd(e) {
+  _finCatDragSrc = null;
+  document.querySelectorAll('.fin-dash-card').forEach(function(el){ el.style.opacity = ''; el.style.outline = ''; });
+}
+
+// ===== FIN CATEGORY EDIT MODAL =====
+var _finCatEditId = null;
+
+function editFinCategory(catId) {
+  var cat = (_finCategories || []).find(function(c){ return c.id === catId; });
+  if (!cat) return;
+  _finCatEditId = catId;
+  var ni = document.getElementById('fin-cat-name');
+  var ii = document.getElementById('fin-cat-icon');
+  var title = document.querySelector('#modal-addfincat .modal-title');
+  if (ni) ni.value = cat.name;
+  if (ii) ii.value = cat.icon || '';
+  if (title) title.textContent = 'Edit Category';
+  var el = document.getElementById('modal-addfincat');
+  if (el) { el.style.display = 'flex'; el.style.visibility = ''; }
+}
+
+function openAddFinCategoryModal() {
+  _finCatEditId = null;
+  var ni = document.getElementById('fin-cat-name');
+  var ii = document.getElementById('fin-cat-icon');
+  var title = document.querySelector('#modal-addfincat .modal-title');
+  if (ni) ni.value = '';
+  if (ii) ii.value = '';
+  if (title) title.textContent = 'Add Category';
+  var el = document.getElementById('modal-addfincat');
+  if (el) { el.style.display = 'flex'; el.style.visibility = ''; }
+}
+
+function saveFinCategory() {
+  var nameEl = document.getElementById('fin-cat-name');
+  var iconEl = document.getElementById('fin-cat-icon');
+  var name = (nameEl ? nameEl.value.trim() : '');
+  var icon = (iconEl ? iconEl.value.trim() : '') || '📂';
+  if (!name) { alert('Enter a category name.'); return; }
+  var el = document.getElementById('modal-addfincat');
+  if (el) el.style.display = 'none';
+  if (!Array.isArray(_finCategories)) _finCategories = [];
+  if (_finCatEditId) {
+    // Edit existing
+    var cat = _finCategories.find(function(c){ return c.id === _finCatEditId; });
+    if (cat) { cat.name = name; cat.icon = icon; }
+    _finCatEditId = null;
+  } else {
+    // Add new
+    _finCategories.push({ id: 'cat-' + Date.now(), name: name, icon: icon, color: 'var(--accent)' });
+  }
+  saveData();
+  renderSidebar();
+  renderFinDashboard();
+}
+

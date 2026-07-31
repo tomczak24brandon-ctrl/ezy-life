@@ -1,0 +1,32 @@
+function renderFinDashboard() {
+  var wrap = document.getElementById('fin-dash-content');
+  if (!wrap) return;
+  migrateFinCategories();
+  var html = '';
+  if (!_finCategories || !_finCategories.length) {
+    html += '<div class="empty-state"><div class="empty-icon">📂</div><div class="empty-text">No categories yet.<br>Add your first one above!</div></div>';
+  } else {
+    html += '<div class="fin-dash-grid">';
+    _finCategories.forEach(function(cat) {
+      var catAccounts = (_finAccounts.all || []).filter(function(a){ return a.categoryId === cat.id; });
+      var totalBal = catAccounts.reduce(function(sum, a){ return sum + (getAccountBalance(a) || 0); }, 0);
+      var balColor = totalBal >= 0 ? 'var(--green)' : 'var(--red)';
+      html += '<div class="fin-dash-card" draggable="true"'
+        + ' onclick="openFinCategory(\'' + cat.id + '\')"'
+        + ' ondragstart="finCatDragStart(event,\'' + cat.id + '\')"'
+        + ' ondragover="finCatDragOver(event)"'
+        + ' ondrop="finCatDrop(event,\'' + cat.id + '\')"'
+        + ' ondragend="finCatDragEnd(event)"'
+        + ' style="position:relative;cursor:grab;">'
+        + '<div style="position:absolute;top:8px;right:8px;font-size:13px;color:var(--text3);cursor:pointer;padding:4px;pointer-events:auto;z-index:2;" onclick="event.stopPropagation();editFinCategory(\'' + cat.id + '\')">&#9998;</div>'
+        + '<div class="fin-dash-card-icon" style="pointer-events:none;">' + esc(cat.icon || '📂') + '</div>'
+        + '<div class="fin-dash-card-name" style="pointer-events:none;">' + esc(cat.name) + '</div>'
+        + '<div class="fin-dash-card-meta" style="pointer-events:none;">' + catAccounts.length + ' account' + (catAccounts.length !== 1 ? 's' : '') + '</div>'
+        + '<div class="fin-dash-card-bal" style="pointer-events:none;color:' + balColor + ';">$' + Math.abs(totalBal).toFixed(2) + (totalBal < 0 ? ' <span style="font-size:11px;color:var(--red);">owed</span>' : '') + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+  }
+  wrap.innerHTML = html;
+}
+

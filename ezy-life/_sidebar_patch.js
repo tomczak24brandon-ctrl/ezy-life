@@ -1,0 +1,2 @@
+              html += '<span onclick="openFinCategory(' + JSON.stringify(cat.id) + ')" style="flex:1;font-size:13px;font-weight:600;' + (catIsActive ? 'color:var(--accent2);' : 'color:var(--text2);') + '">' + esc(cat.icon || '📂') + ' ' + esc(cat.name) + '</span>';
+              html += '<span onclick="sgFinCatToggle(' + JSON.stringify(catCollapsedKey) + ')" style="font-size:11px;color:var(--text3);padding:0 4px;user-select:none;">' + catArrow + '</span>';
