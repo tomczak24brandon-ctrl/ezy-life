@@ -391,15 +391,15 @@ var _HB_STORAGE_KEY = 'ezy_homeblock_order_v1';
 
 
 // --- window exports ---
-if (typeof showPage !== 'undefined') window.showPage = showPage;
-if (typeof showModal !== 'undefined') window.showModal = showModal;
-if (typeof closeModal !== 'undefined') window.closeModal = closeModal;
-if (typeof toggleMobileSidebar !== 'undefined') window.toggleMobileSidebar = toggleMobileSidebar;
-if (typeof closeMobileSidebar !== 'undefined') window.closeMobileSidebar = closeMobileSidebar;
-if (typeof goBack !== 'undefined') window.goBack = goBack;
-if (typeof goHome !== 'undefined') window.goHome = goHome;
-if (typeof toggleTheme !== 'undefined') window.toggleTheme = toggleTheme;
-if (typeof highlightNav !== 'undefined') window.highlightNav = highlightNav;
-if (typeof updateNavButtons !== 'undefined') window.updateNavButtons = updateNavButtons;
-if (typeof setJTab !== 'undefined') window.setJTab = setJTab;
-if (typeof esc !== 'undefined') window.esc = esc;
+window.showPage = showPage;
+window.showModal = showModal;
+window.closeModal = closeModal;
+window.toggleMobileSidebar = toggleMobileSidebar;
+window.closeMobileSidebar = closeMobileSidebar;
+window.goBack = goBack;
+window.goHome = goHome;
+window.toggleTheme = toggleTheme;
+window.highlightNav = highlightNav;
+window.updateNavButtons = updateNavButtons;
+window.setJTab = setJTab;
+window.esc = esc;

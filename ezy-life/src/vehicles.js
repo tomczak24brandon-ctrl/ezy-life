@@ -411,17 +411,17 @@ function printMileageReport() {
 
 
 // --- window exports ---
-if (typeof openAddVehicleModal !== 'undefined') window.openAddVehicleModal = openAddVehicleModal;
-if (typeof saveVehicle !== 'undefined') window.saveVehicle = saveVehicle;
-if (typeof openAddMaintModal !== 'undefined') window.openAddMaintModal = openAddMaintModal;
-if (typeof saveMaint !== 'undefined') window.saveMaint = saveMaint;
-if (typeof viewReceipt !== 'undefined') window.viewReceipt = viewReceipt;
-if (typeof renderVehicles !== 'undefined') window.renderVehicles = renderVehicles;
-if (typeof deleteVehicle !== 'undefined') window.deleteVehicle = deleteVehicle;
-if (typeof openWorkOrderModal !== 'undefined') window.openWorkOrderModal = openWorkOrderModal;
-if (typeof saveWorkOrder !== 'undefined') window.saveWorkOrder = saveWorkOrder;
-if (typeof openInventoryModal !== 'undefined') window.openInventoryModal = openInventoryModal;
-if (typeof saveInventoryItem !== 'undefined') window.saveInventoryItem = saveInventoryItem;
-if (typeof openMileageModal !== 'undefined') window.openMileageModal = openMileageModal;
-if (typeof saveMileage !== 'undefined') window.saveMileage = saveMileage;
-if (typeof printMileageReport !== 'undefined') window.printMileageReport = printMileageReport;
+window.openAddVehicleModal = openAddVehicleModal;
+window.saveVehicle = saveVehicle;
+window.openAddMaintModal = openAddMaintModal;
+window.saveMaint = saveMaint;
+window.viewReceipt = viewReceipt;
+window.renderVehicles = renderVehicles;
+window.deleteVehicle = deleteVehicle;
+window.openWorkOrderModal = openWorkOrderModal;
+window.saveWorkOrder = saveWorkOrder;
+window.openInventoryModal = openInventoryModal;
+window.saveInventoryItem = saveInventoryItem;
+window.openMileageModal = openMileageModal;
+window.saveMileage = saveMileage;
+window.printMileageReport = printMileageReport;

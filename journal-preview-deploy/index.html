@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Journal - Brandon</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --accent: #1f6feb;
+    --accent2: #388bfd;
+    --green: #3fb950;
+    --green-bg: #0d2a1a;
+    --red: #f85149;
+    --red-bg: #2a0d0d;
+    --yellow: #e3b341;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #6e7681;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .layout { display: flex; height: 100vh; overflow: hidden; }
+  
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  .logo {
+    padding: 0 20px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .logo-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .nav-section { padding: 0 12px; margin-bottom: 8px; }
+  .nav-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 4px 8px 8px; }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 6px;
+    font-size: 13px; color: var(--text2);
+    cursor: pointer; transition: all 0.15s;
+    margin-bottom: 2px;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: rgba(31,111,235,0.15); color: var(--accent2); }
+  .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+  .nav-badge {
+    margin-left: auto; background: var(--accent); color: white;
+    font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600;
+  }
+  .nav-badge.red { background: var(--red); }
+
+  .accounts-section { padding: 16px 12px 0; border-top: 1px solid var(--border); margin-top: auto; }
+  .account-chip {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 5px; margin-bottom: 4px; cursor: pointer;
+    font-size: 12px; color: var(--text2);
+  }
+  .account-chip:hover { background: var(--surface2); }
+  .account-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* MAIN */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar-title { font-size: 18px; font-weight: 600; }
+  .topbar-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  .btn {
+    padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600;
+    border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-outline { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+  .btn-outline:hover { color: var(--text); border-color: var(--text3); }
+  .btn-green { background: var(--green); color: #0d1117; }
+  .btn-red { background: var(--red); color: white; }
+
+  .content { padding: 24px 28px; flex: 1; }
+
+  /* STAT CARDS */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .stat-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 26px; font-weight: 700; margin-top: 6px; }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.blue { color: var(--accent2); }
+  .stat-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .stat-sub.up { color: var(--green); }
+  .stat-sub.down { color: var(--red); }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .tab {
+    padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text3);
+    cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+  /* TABLE */
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .table-header {
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .table-title { font-size: 14px; font-weight: 600; }
+  .table-actions { display: flex; gap: 8px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left; padding: 11px 16px;
+    font-size: 11px; font-weight: 600; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    background: var(--surface2); border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; cursor: pointer; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td { padding: 13px 16px; font-size: 13px; vertical-align: middle; }
+
+  .ticker { font-weight: 700; font-size: 14px; letter-spacing: 0.5px; }
+  .company { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .account-badge {
+    padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .acc-alpha { background: rgba(31,111,235,0.15); color: var(--accent2); }
+  .acc-beta { background: rgba(63,185,80,0.12); color: var(--green); }
+  .acc-target { background: rgba(227,179,65,0.12); color: var(--yellow); }
+
+  .gain { color: var(--green); font-weight: 600; }
+  .loss { color: var(--red); font-weight: 600; }
+
+  .tax-badge {
+    background: rgba(248,81,73,0.1);
+    color: var(--red);
+    padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+  }
+
+  .lt-badge {
+    padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+  }
+  .lt { background: rgba(63,185,80,0.12); color: var(--green); }
+  .st { background: rgba(248,81,73,0.1); color: var(--red); }
+
+  .thesis-preview {
+    font-size: 11px; color: var(--text3); max-width: 200px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* MODAL OVERLAY (buy entry form preview) */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+  }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    width: 520px;
+    padding: 28px;
+    position: relative;
+  }
+  .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .modal-sub { font-size: 13px; color: var(--text3); margin-bottom: 24px; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .form-full { grid-column: 1 / -1; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-size: 13px;
+  }
+  .form-input:focus { outline: none; border-color: var(--accent); }
+  .form-textarea {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-size: 13px;
+    resize: vertical;
+    min-height: 70px;
+    font-family: inherit;
+  }
+  .form-select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-size: 13px;
+    width: 100%;
+    appearance: none;
+  }
+
+  .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  .close-btn {
+    position: absolute; top: 18px; right: 18px;
+    background: none; border: none; color: var(--text3);
+    font-size: 20px; cursor: pointer; line-height: 1;
+  }
+  .close-btn:hover { color: var(--text); }
+
+  /* TODO SECTION */
+  .todo-section { margin-top: 24px; }
+  .todo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+  }
+  .todo-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 20px; border-bottom: 1px solid var(--border);
+    cursor: pointer; transition: background 0.1s;
+  }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-item:hover { background: var(--surface2); }
+  .todo-check {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .todo-check.done { background: var(--green); border-color: var(--green); }
+  .todo-check.done::after { content: '✓'; color: #0d1117; font-size: 11px; font-weight: 800; }
+  .todo-text { font-size: 13px; flex: 1; }
+  .todo-text.done { text-decoration: line-through; color: var(--text3); }
+  .todo-meta { font-size: 11px; color: var(--text3); }
+  .todo-urgent { background: rgba(248,81,73,0.08); }
+  .todo-urgent .todo-text { color: var(--text); }
+
+  /* TAX SUMMARY CARD */
+  .tax-summary {
+    background: linear-gradient(135deg, rgba(248,81,73,0.08) 0%, rgba(13,17,23,0) 60%);
+    border: 1px solid rgba(248,81,73,0.25);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tax-summary-left { flex: 1; }
+  .tax-title { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 4px; }
+  .tax-amount { font-size: 32px; font-weight: 800; color: var(--red); }
+  .tax-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .tax-breakdown { display: flex; gap: 24px; }
+  .tax-line { text-align: right; }
+  .tax-line-label { font-size: 11px; color: var(--text3); }
+  .tax-line-val { font-size: 15px; font-weight: 700; }
+
+  /* Responsive hint */
+  .view-toggle { display: flex; gap: 6px; }
+  .vt-btn {
+    padding: 6px 10px; border-radius: 5px; font-size: 12px;
+    border: 1px solid var(--border); background: none; color: var(--text3); cursor: pointer;
+  }
+  .vt-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text3); }
+
+  /* page toggle state */
+  .page { display: none; }
+  .page.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-title">📈 Trade Journal</div>
+      <div class="logo-sub">Brandon Tomczak</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <div class="nav-item active" onclick="showPage('dashboard')">
+        <span class="icon">🏠</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showPage('journal')">
+        <span class="icon">📒</span> Journal
+      </div>
+      <div class="nav-item" onclick="showPage('buys')">
+        <span class="icon">🛒</span> Open Positions
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" onclick="showPage('tax')">
+        <span class="icon">💸</span> Tax Summary
+        <span class="nav-badge red">!</span>
+      </div>
+    </div>
+
+    <div class="nav-section" style="margin-top:16px">
+      <div class="nav-label">Tools</div>
+      <div class="nav-item" onclick="showPage('todos')">
+        <span class="icon">☑️</span> To-Do List
+        <span class="nav-badge">3</span>
+      </div>
+      <div class="nav-item">
+        <span class="icon">📊</span> Reports
+      </div>
+      <div class="nav-item">
+        <span class="icon">⚙️</span> Settings
+      </div>
+    </div>
+
+    <div class="accounts-section">
+      <div class="nav-label">Accounts</div>
+      <div class="account-chip">
+        <div class="account-dot" style="background:var(--accent2)"></div>
+        Alpha Strike
+      </div>
+      <div class="account-chip">
+        <div class="account-dot" style="background:var(--green)"></div>
+        Beta Core
+      </div>
+      <div class="account-chip">
+        <div class="account-dot" style="background:var(--yellow)"></div>
+        Target Date 2060
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="page-title">Dashboard</div>
+        <div class="topbar-sub" id="page-sub">2025 Tax Year — Married Filing Jointly</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn btn-outline" onclick="showPage('journal')">📋 View Journal</button>
+        <button class="btn btn-primary" onclick="showModal('buy')">+ Log Buy</button>
+        <button class="btn btn-red" onclick="showModal('sell')">+ Log Sell</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <!-- Tax alert banner -->
+        <div class="tax-summary">
+          <div class="tax-summary-left">
+            <div class="tax-title">⚠️ Estimated Tax Owed (2025 YTD)</div>
+            <div class="tax-amount">$1,847.32</div>
+            <div class="tax-sub">Next transfer reminder: Monday, Jul 14 at 12:00 PM CT</div>
+          </div>
+          <div class="tax-breakdown">
+            <div class="tax-line">
+              <div class="tax-line-label">Short-Term</div>
+              <div class="tax-line-val" style="color:var(--red)">$1,204.10</div>
+              <div class="tax-line-label" style="margin-top:2px">22% rate</div>
+            </div>
+            <div class="tax-line">
+              <div class="tax-line-label">Long-Term</div>
+              <div class="tax-line-val" style="color:var(--yellow)">$643.22</div>
+              <div class="tax-line-label" style="margin-top:2px">15% rate</div>
+            </div>
+            <div style="display:flex;align-items:center">
+              <button class="btn btn-red" style="margin-left:16px">Transfer to Schwab Tax Acct →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Realized Gains</div>
+            <div class="stat-value green">$6,481.22</div>
+            <div class="stat-sub up">↑ 14 trades this year</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Realized Losses</div>
+            <div class="stat-value red">−$1,240.00</div>
+            <div class="stat-sub down">↓ 3 loss trades</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Net P&amp;L (YTD)</div>
+            <div class="stat-value blue">$5,241.22</div>
+            <div class="stat-sub">Across all 3 accounts</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Open Positions</div>
+            <div class="stat-value" style="color:var(--text)">5</div>
+            <div class="stat-sub">2 near target price</div>
+          </div>
+        </div>
+
+        <!-- Recent trades -->
+        <div class="table-wrap">
+          <div class="table-header">
+            <div class="table-title">Recent Trades</div>
+            <div class="table-actions">
+              <button class="btn btn-outline" onclick="showPage('journal')" style="font-size:12px;padding:6px 12px">View All</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Account</th>
+                <th>Date</th>
+                <th>Proceeds</th>
+                <th>Cost Basis</th>
+                <th>Gain / Loss</th>
+                <th>Type</th>
+                <th>Est. Tax</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">NVDA</div><div class="company">NVIDIA Corp</div></td>
+                <td><span class="account-badge acc-alpha">Alpha Strike</span></td>
+                <td>6/20/2025</td>
+                <td>$4,820.00</td>
+                <td>$3,600.00</td>
+                <td class="gain">+$1,220.00 (+33.9%)</td>
+                <td><span class="lt-badge st">Short-Term</span></td>
+                <td><span class="tax-badge">$268.40</span></td>
+              </tr>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">AMD</div><div class="company">Advanced Micro Devices</div></td>
+                <td><span class="account-badge acc-beta">Beta Core</span></td>
+                <td>6/17/2025</td>
+                <td>$3,240.00</td>
+                <td>$2,400.00</td>
+                <td class="gain">+$840.00 (+35.0%)</td>
+                <td><span class="lt-badge lt">Long-Term</span></td>
+                <td><span class="tax-badge">$126.00</span></td>
+              </tr>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">NKE</div><div class="company">Nike Inc</div></td>
+                <td><span class="account-badge acc-target">Target 2060</span></td>
+                <td>6/15/2025</td>
+                <td>$1,890.00</td>
+                <td>$2,100.00</td>
+                <td class="loss">−$210.00 (−10.0%)</td>
+                <td><span class="lt-badge st">Short-Term</span></td>
+                <td><span class="tax-badge" style="background:rgba(63,185,80,0.08);color:var(--green)">Tax Loss</span></td>
+              </tr>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">UNH</div><div class="company">UnitedHealth Group</div></td>
+                <td><span class="account-badge acc-alpha">Alpha Strike</span></td>
+                <td>6/2/2025</td>
+                <td>$5,600.00</td>
+                <td>$4,200.00</td>
+                <td class="gain">+$1,400.00 (+33.3%)</td>
+                <td><span class="lt-badge lt">Long-Term</span></td>
+                <td><span class="tax-badge">$210.00</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- JOURNAL PAGE -->
+      <div class="page" id="page-journal">
+        <div class="tabs">
+          <div class="tab active">All Trades</div>
+          <div class="tab">Sells</div>
+          <div class="tab">Buys</div>
+          <div class="tab">Tax Losses</div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <div class="table-title">Full Journal — 2025</div>
+            <div class="table-actions">
+              <button class="btn btn-outline" style="font-size:12px;padding:6px 12px">⬆ Import CSV</button>
+              <button class="btn btn-outline" style="font-size:12px;padding:6px 12px">⬇ Export</button>
+              <button class="btn btn-primary" onclick="showModal('buy')">+ Log Buy</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Gain/Loss</th>
+                <th>Hold Time</th>
+                <th>Thesis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="ticker">NVDA</div><div class="company">NVIDIA Corp</div></td>
+                <td><span class="account-badge acc-alpha">Alpha Strike</span></td>
+                <td><span class="lt-badge" style="background:rgba(248,81,73,0.1);color:var(--red)">SELL</span></td>
+                <td>6/20/25</td>
+                <td>20</td>
+                <td>$241.00</td>
+                <td>$4,820</td>
+                <td class="gain">+$1,220</td>
+                <td>8 months</td>
+                <td><div class="thesis-preview">AI chip demand + data center expansion…</div></td>
+              </tr>
+              <tr>
+                <td><div class="ticker">TQQQ</div><div class="company">ProShares UltraPro QQQ</div></td>
+                <td><span class="account-badge acc-beta">Beta Core</span></td>
+                <td><span class="lt-badge" style="background:rgba(63,185,80,0.1);color:var(--green)">BUY</span></td>
+                <td>6/18/25</td>
+                <td>50</td>
+                <td>$72.40</td>
+                <td>$3,620</td>
+                <td>—</td>
+                <td>Open</td>
+                <td><div class="thesis-preview">Nasdaq breakout setup, target $95…</div></td>
+              </tr>
+              <tr>
+                <td><div class="ticker">AMD</div><div class="company">Advanced Micro Devices</div></td>
+                <td><span class="account-badge acc-beta">Beta Core</span></td>
+                <td><span class="lt-badge" style="background:rgba(248,81,73,0.1);color:var(--red)">SELL</span></td>
+                <td>6/17/25</td>
+                <td>25</td>
+                <td>$129.60</td>
+                <td>$3,240</td>
+                <td class="gain">+$840</td>
+                <td>14 months</td>
+                <td><div class="thesis-preview">MI300 GPU cycle + market share from Intel…</div></td>
+              </tr>
+              <tr>
+                <td><div class="ticker">NKE</div><div class="company">Nike Inc</div></td>
+                <td><span class="account-badge acc-target">Target 2060</span></td>
+                <td><span class="lt-badge" style="background:rgba(248,81,73,0.1);color:var(--red)">SELL</span></td>
+                <td>6/15/25</td>
+                <td>30</td>
+                <td>$63.00</td>
+                <td>$1,890</td>
+                <td class="loss">−$210</td>
+                <td>4 months</td>
+                <td><div class="thesis-preview">Turnaround play — stopped out at loss…</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TODOS PAGE -->
+      <div class="page" id="page-todos">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:2px">To-Do List</div>
+            <div style="font-size:12px;color:var(--text3)">3 open tasks · Uncompleted tasks delivered every morning 8am CT</div>
+          </div>
+          <button class="btn btn-primary">+ Add Task</button>
+        </div>
+        <div class="todo-card">
+          <div class="todo-item todo-urgent">
+            <div class="todo-check"></div>
+            <div style="flex:1">
+              <div class="todo-text">⚠️ Transfer $1,847.32 in capital gains tax to Schwab tax account</div>
+              <div class="todo-meta">Auto-generated · Due Monday Jul 14</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-check"></div>
+            <div style="flex:1">
+              <div class="todo-text">Review TQQQ position — near price target of $95</div>
+              <div class="todo-meta">Added manually · Jul 5</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-check"></div>
+            <div style="flex:1">
+              <div class="todo-text">Log kids' account trades for June</div>
+              <div class="todo-meta">Added manually · Jul 1</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-check done"></div>
+            <div style="flex:1">
+              <div class="todo-text done">Import Q1 trades from spreadsheet</div>
+              <div class="todo-meta">Completed Jul 2</div>
+            </div>
+          </div>
+          <div class="todo-item">
+            <div class="todo-check done"></div>
+            <div style="flex:1">
+              <div class="todo-text done">Set up Schwab tax transfer account</div>
+              <div class="todo-meta">Completed Jun 30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAX PAGE -->
+      <div class="page" id="page-tax">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Short-Term Gains</div>
+            <div class="stat-value red">$5,475.92</div>
+            <div class="stat-sub">Taxed as ordinary income (22%)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Long-Term Gains</div>
+            <div class="stat-value yellow">$4,285.30</div>
+            <div class="stat-sub">Preferential rate (15% MFJ)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Tax Loss Harvested</div>
+            <div class="stat-value green">$1,240.00</div>
+            <div class="stat-sub">Offsets gains</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Owed Est.</div>
+            <div class="stat-value red">$1,847.32</div>
+            <div class="stat-sub">After loss offset</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <div class="table-title">Tax Transfer History</div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Date</th><th>Amount</th><th>From Account</th><th>Status</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jun 30, 2025</td>
+                <td style="color:var(--red);font-weight:700">$642.00</td>
+                <td>Alpha Strike</td>
+                <td><span class="lt-badge lt">Transferred</span></td>
+                <td>Q2 gains — NVDA, UNH</td>
+              </tr>
+              <tr>
+                <td>Mar 31, 2025</td>
+                <td style="color:var(--red);font-weight:700">$318.00</td>
+                <td>Beta Core</td>
+                <td><span class="lt-badge lt">Transferred</span></td>
+                <td>Q1 gains</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BUYS PAGE -->
+      <div class="page" id="page-buys">
+        <div class="table-wrap">
+          <div class="table-header">
+            <div class="table-title">Open Positions</div>
+            <button class="btn btn-primary" onclick="showModal('buy')">+ Log Buy</button>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Position</th><th>Account</th><th>Bought</th><th>Shares</th><th>Avg Cost</th><th>Target Price</th><th>Hold Plan</th><th>Thesis</th></tr>
+            </thead>
+            <tbody>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">TQQQ</div><div class="company">ProShares UltraPro QQQ</div></td>
+                <td><span class="account-badge acc-beta">Beta Core</span></td>
+                <td>6/18/25</td>
+                <td>50</td>
+                <td>$72.40</td>
+                <td style="color:var(--green);font-weight:600">$95.00</td>
+                <td>6–12 months</td>
+                <td><div class="thesis-preview">Nasdaq breakout setup, 3x leverage…</div></td>
+              </tr>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">NRG</div><div class="company">NRG Energy Inc</div></td>
+                <td><span class="account-badge acc-alpha">Alpha Strike</span></td>
+                <td>5/30/25</td>
+                <td>40</td>
+                <td>$88.20</td>
+                <td style="color:var(--green);font-weight:600">$110.00</td>
+                <td>12–18 months</td>
+                <td><div class="thesis-preview">AI data center power demand play…</div></td>
+              </tr>
+              <tr onclick="showModal('detail')">
+                <td><div class="ticker">NU</div><div class="company">Nu Holdings Ltd</div></td>
+                <td><span class="account-badge acc-beta">Beta Core</span></td>
+                <td>5/15/25</td>
+                <td>200</td>
+                <td>$14.80</td>
+                <td style="color:var(--green);font-weight:600">$22.00</td>
+                <td>18–24 months</td>
+                <td><div class="thesis-preview">Latin America fintech dominant player…</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BUY MODAL -->
+<div class="modal-overlay" id="modal-buy" style="display:none">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal('buy')">×</button>
+    <div class="modal-title">🛒 Log a Buy</div>
+    <div class="modal-sub">Record your trade, thesis, and valuation</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Ticker Symbol</label>
+        <input class="form-input" placeholder="e.g. NVDA" value="NVDA">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Account</label>
+        <select class="form-select">
+          <option>Alpha Strike</option>
+          <option>Beta Core</option>
+          <option>Target Date 2060</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input class="form-input" type="date" value="2025-07-06">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Shares</label>
+        <input class="form-input" placeholder="0" value="20">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Price Per Share</label>
+        <input class="form-input" placeholder="$0.00" value="$180.50">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Price Target</label>
+        <input class="form-input" placeholder="$0.00" value="$250.00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Planned Hold Duration</label>
+        <select class="form-select">
+          <option>Less than 1 month</option>
+          <option>1–6 months</option>
+          <option selected>6–12 months</option>
+          <option>1–2 years</option>
+          <option>2+ years</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Intrinsic Value (optional)</label>
+        <input class="form-input" placeholder="Your DCF/calc" value="$230.00">
+      </div>
+      <div class="form-group form-full">
+        <label class="form-label">💡 Why did you buy this?</label>
+        <textarea class="form-textarea" placeholder="Your investment thesis...">AI chip supercycle — data center capex still accelerating. NVDA has pricing power. Bought on pullback to support.</textarea>
+      </div>
+      <div class="form-group form-full">
+        <label class="form-label">📝 Valuation Notes</label>
+        <textarea class="form-textarea" placeholder="Your analysis, P/E, price targets, etc." style="min-height:55px">Forward P/E ~35x on $7 EPS est. Target $250 in 8 months. Stop loss at $155.</textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('buy')">Cancel</button>
+      <button class="btn btn-green">Save Buy Entry ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- SELL MODAL -->
+<div class="modal-overlay" id="modal-sell" style="display:none">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal('sell')">×</button>
+    <div class="modal-title">💰 Log a Sell</div>
+    <div class="modal-sub">Record the sale — tax calc is automatic</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Ticker Symbol</label>
+        <input class="form-input" placeholder="e.g. NVDA" value="NVDA">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Account</label>
+        <select class="form-select">
+          <option>Alpha Strike</option>
+          <option>Beta Core</option>
+          <option>Target Date 2060</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date Sold</label>
+        <input class="form-input" type="date" value="2025-07-06">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Shares Sold</label>
+        <input class="form-input" placeholder="0" value="20">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sell Price</label>
+        <input class="form-input" placeholder="$0.00" value="$241.00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cost Basis</label>
+        <input class="form-input" placeholder="$0.00" value="$180.00">
+      </div>
+      <div class="form-group form-full">
+        <label class="form-label">📝 Why did you sell?</label>
+        <textarea class="form-textarea" placeholder="Did you hit your target? Stop out? Change thesis?">Hit price target. Thesis played out — took profits before earnings volatility.</textarea>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:4px">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;font-weight:600;text-transform:uppercase;">Auto-Calculated</div>
+      <div style="display:flex;gap:24px">
+        <div><div style="font-size:11px;color:var(--text3)">Gain/Loss</div><div style="font-size:16px;font-weight:700;color:var(--green)">+$1,220.00 (+33.9%)</div></div>
+        <div><div style="font-size:11px;color:var(--text3)">Hold Time</div><div style="font-size:16px;font-weight:700">8 months</div></div>
+        <div><div style="font-size:11px;color:var(--text3)">Classification</div><div style="font-size:16px;font-weight:700;color:var(--red)">Short-Term</div></div>
+        <div><div style="font-size:11px;color:var(--text3)">Est. Tax (22%)</div><div style="font-size:16px;font-weight:700;color:var(--red)">$268.40</div></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('sell')">Cancel</button>
+      <button class="btn btn-red">Save Sell Entry ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modal-detail" style="display:none">
+  <div class="modal" style="width:560px">
+    <button class="close-btn" onclick="closeModal('detail')">×</button>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:22px;font-weight:800;letter-spacing:1px">NVDA</div>
+      <div>
+        <div style="font-size:16px;font-weight:700">NVIDIA Corporation</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px"><span class="account-badge acc-alpha">Alpha Strike</span></div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:22px;font-weight:800;color:var(--green)">+$1,220.00</div>
+        <div style="font-size:12px;color:var(--green)">+33.9% · Short-Term</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600">Bought</div>
+        <div style="font-size:14px;font-weight:700;margin-top:4px">Oct 12, 2024</div>
+        <div style="font-size:11px;color:var(--text3)">$180.50/share · 20 shares</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600">Sold</div>
+        <div style="font-size:14px;font-weight:700;margin-top:4px">Jun 20, 2025</div>
+        <div style="font-size:11px;color:var(--text3)">$241.00/share · 20 shares</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600">Hold Time vs Plan</div>
+        <div style="font-size:14px;font-weight:700;margin-top:4px">8 months</div>
+        <div style="font-size:11px;color:var(--green)">Planned: 6–12 months ✓</div>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:12px">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600;margin-bottom:6px">💡 Original Thesis (at buy)</div>
+      <div style="font-size:13px;line-height:1.5">AI chip supercycle — data center capex still accelerating. NVDA has pricing power. Bought on pullback to support.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600;margin-bottom:4px">🎯 Target vs Actual</div>
+        <div style="font-size:12px">Target: <strong style="color:var(--green)">$250.00</strong></div>
+        <div style="font-size:12px">Sold at: <strong>$241.00</strong></div>
+        <div style="font-size:11px;color:var(--yellow);margin-top:4px">Sold just below target — close</div>
+      </div>
+      <div style="background:rgba(248,81,73,0.06);border:1px solid rgba(248,81,73,0.2);border-radius:7px;padding:12px">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600;margin-bottom:4px">💸 Tax</div>
+        <div style="font-size:12px">Est. owed: <strong style="color:var(--red)">$268.40</strong></div>
+        <div style="font-size:12px">Rate: <strong>22% (ST)</strong></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">Transfer to Schwab tax acct</div>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:14px">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;font-weight:600;margin-bottom:6px">📝 Exit Notes</div>
+      <div style="font-size:13px;line-height:1.5;color:var(--text2)">Hit price target. Thesis played out — took profits before earnings volatility.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+
+    const titles = {
+      dashboard: ['Dashboard', '2025 Tax Year — Married Filing Jointly'],
+      journal: ['Trade Journal', 'All trades — 2025'],
+      buys: ['Open Positions', 'Buys not yet sold'],
+      tax: ['Tax Summary', '2025 Capital Gains Tax Estimate'],
+      todos: ['To-Do List', 'Tasks & reminders']
+    };
+    document.getElementById('page-title').textContent = titles[id][0];
+    document.getElementById('page-sub').textContent = titles[id][1];
+  }
+
+  function showModal(id) {
+    document.getElementById('modal-' + id).style.display = 'flex';
+  }
+  function closeModal(id) {
+    document.getElementById('modal-' + id).style.display = 'none';
+  }
+
+  // Close modal on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
+    });
+  });
+
+  // Checkbox toggle
+  document.querySelectorAll('.todo-check').forEach(check => {
+    check.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('done');
+      const text = this.parentElement.querySelector('.todo-text');
+      text.classList.toggle('done');
+    });
+  });
+</script>
+</body>
+</html>

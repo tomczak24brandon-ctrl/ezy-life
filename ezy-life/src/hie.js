@@ -151,10 +151,10 @@ function hieSave(){
 
 
 // --- window exports ---
-if (typeof hieLoad !== 'undefined') window.hieLoad = hieLoad;
-if (typeof hieOpenModal !== 'undefined') window.hieOpenModal = hieOpenModal;
-if (typeof hieTab !== 'undefined') window.hieTab = hieTab;
-if (typeof hiePickEmoji !== 'undefined') window.hiePickEmoji = hiePickEmoji;
-if (typeof hieEmojiTyped !== 'undefined') window.hieEmojiTyped = hieEmojiTyped;
-if (typeof hieFileChosen !== 'undefined') window.hieFileChosen = hieFileChosen;
-if (typeof hieSave !== 'undefined') window.hieSave = hieSave;
+window.hieLoad = hieLoad;
+window.hieOpenModal = hieOpenModal;
+window.hieTab = hieTab;
+window.hiePickEmoji = hiePickEmoji;
+window.hieEmojiTyped = hieEmojiTyped;
+window.hieFileChosen = hieFileChosen;
+window.hieSave = hieSave;

@@ -199,5 +199,5 @@ var _gsearchTimer = null;
 
 
 // --- window exports ---
-if (typeof saveData !== 'undefined') window.saveData = saveData;
-if (typeof loadData !== 'undefined') window.loadData = loadData;
+window.saveData = saveData;
+window.loadData = loadData;

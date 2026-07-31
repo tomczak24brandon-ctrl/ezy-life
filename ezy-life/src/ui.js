@@ -880,17 +880,17 @@ var _goalsTabDefaults = ['🎯 Active Goals', '📋 All Goals', '✅ Complete go
 
 
 // --- window exports ---
-if (typeof setAMPM !== 'undefined') window.setAMPM = setAMPM;
-if (typeof setEndAMPM !== 'undefined') window.setEndAMPM = setEndAMPM;
-if (typeof autoToggleAMPM !== 'undefined') window.autoToggleAMPM = autoToggleAMPM;
-if (typeof getPickedTime !== 'undefined') window.getPickedTime = getPickedTime;
-if (typeof getPickedEndTime !== 'undefined') window.getPickedEndTime = getPickedEndTime;
-if (typeof pickEmoji !== 'undefined') window.pickEmoji = pickEmoji;
-if (typeof requestNotifPermission !== 'undefined') window.requestNotifPermission = requestNotifPermission;
-if (typeof printPage !== 'undefined') window.printPage = printPage;
-if (typeof showCategoryMenu !== 'undefined') window.showCategoryMenu = showCategoryMenu;
-if (typeof gsearchRun !== 'undefined') window.gsearchRun = gsearchRun;
-if (typeof gsearchActEl !== 'undefined') window.gsearchActEl = gsearchActEl;
-if (typeof gsearchAct !== 'undefined') window.gsearchAct = gsearchAct;
-if (typeof gsearchBlur !== 'undefined') window.gsearchBlur = gsearchBlur;
-if (typeof gsearchKey !== 'undefined') window.gsearchKey = gsearchKey;
+window.setAMPM = setAMPM;
+window.setEndAMPM = setEndAMPM;
+window.autoToggleAMPM = autoToggleAMPM;
+window.getPickedTime = getPickedTime;
+window.getPickedEndTime = getPickedEndTime;
+window.pickEmoji = pickEmoji;
+window.requestNotifPermission = requestNotifPermission;
+window.printPage = printPage;
+window.showCategoryMenu = showCategoryMenu;
+window.gsearchRun = gsearchRun;
+window.gsearchActEl = gsearchActEl;
+window.gsearchAct = gsearchAct;
+window.gsearchBlur = gsearchBlur;
+window.gsearchKey = gsearchKey;

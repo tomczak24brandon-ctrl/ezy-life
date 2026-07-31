@@ -593,14 +593,14 @@ function _schedToggleSub(dk,id,si,done){
 var _UI_PERSIST_KEY = 'ezy_modal_ui_state';
 
 // --- window exports ---
-if (typeof setGCalView !== 'undefined') window.setGCalView = setGCalView;
-if (typeof gcalToday !== 'undefined') window.gcalToday = gcalToday;
-if (typeof gcalShift !== 'undefined') window.gcalShift = gcalShift;
-if (typeof renderGCal !== 'undefined') window.renderGCal = renderGCal;
-if (typeof gcalColClick !== 'undefined') window.gcalColClick = gcalColClick;
-if (typeof gcalClickDayHeader !== 'undefined') window.gcalClickDayHeader = gcalClickDayHeader;
-if (typeof gcalOpenTask !== 'undefined') window.gcalOpenTask = gcalOpenTask;
-if (typeof gcalMonthCellClick !== 'undefined') window.gcalMonthCellClick = gcalMonthCellClick;
-if (typeof renderGCalSchedule !== 'undefined') window.renderGCalSchedule = renderGCalSchedule;
-if (typeof _schedToggleTask !== 'undefined') window._schedToggleTask = _schedToggleTask;
-if (typeof _schedToggleSub !== 'undefined') window._schedToggleSub = _schedToggleSub;
+window.setGCalView = setGCalView;
+window.gcalToday = gcalToday;
+window.gcalShift = gcalShift;
+window.renderGCal = renderGCal;
+window.gcalColClick = gcalColClick;
+window.gcalClickDayHeader = gcalClickDayHeader;
+window.gcalOpenTask = gcalOpenTask;
+window.gcalMonthCellClick = gcalMonthCellClick;
+window.renderGCalSchedule = renderGCalSchedule;
+window._schedToggleTask = _schedToggleTask;
+window._schedToggleSub = _schedToggleSub;

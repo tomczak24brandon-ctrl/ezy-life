@@ -183,11 +183,11 @@ var _quickLinks = [];
 
 
 // --- window exports ---
-if (typeof renderHomeBlocks !== 'undefined') window.renderHomeBlocks = renderHomeBlocks;
-if (typeof homeBlockClick !== 'undefined') window.homeBlockClick = homeBlockClick;
-if (typeof homeBlockDragStart !== 'undefined') window.homeBlockDragStart = homeBlockDragStart;
-if (typeof homeBlockDragOver !== 'undefined') window.homeBlockDragOver = homeBlockDragOver;
-if (typeof homeBlockDrop !== 'undefined') window.homeBlockDrop = homeBlockDrop;
-if (typeof homeBlockDragEnd !== 'undefined') window.homeBlockDragEnd = homeBlockDragEnd;
-if (typeof hbSaveOrder !== 'undefined') window.hbSaveOrder = hbSaveOrder;
-if (typeof hbLoadOrder !== 'undefined') window.hbLoadOrder = hbLoadOrder;
+window.renderHomeBlocks = renderHomeBlocks;
+window.homeBlockClick = homeBlockClick;
+window.homeBlockDragStart = homeBlockDragStart;
+window.homeBlockDragOver = homeBlockDragOver;
+window.homeBlockDrop = homeBlockDrop;
+window.homeBlockDragEnd = homeBlockDragEnd;
+window.hbSaveOrder = hbSaveOrder;
+window.hbLoadOrder = hbLoadOrder;

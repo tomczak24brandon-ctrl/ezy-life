@@ -222,12 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // --- window exports ---
-if (typeof clockFaceClick !== 'undefined') window.clockFaceClick = clockFaceClick;
-if (typeof clockInitFace !== 'undefined') window.clockInitFace = clockInitFace;
-if (typeof clockKey !== 'undefined') window.clockKey = clockKey;
-if (typeof clockSelectMinute !== 'undefined') window.clockSelectMinute = clockSelectMinute;
-if (typeof clockSyncFromInputs !== 'undefined') window.clockSyncFromInputs = clockSyncFromInputs;
-if (typeof clockSyncHidden !== 'undefined') window.clockSyncHidden = clockSyncHidden;
-if (typeof clockUpdateDisplay !== 'undefined') window.clockUpdateDisplay = clockUpdateDisplay;
-if (typeof buildHourGrid !== 'undefined') window.buildHourGrid = buildHourGrid;
-if (typeof clockCustomMin !== 'undefined') window.clockCustomMin = clockCustomMin;
+window.clockFaceClick = clockFaceClick;
+window.clockInitFace = clockInitFace;
+window.clockKey = clockKey;
+window.clockSelectMinute = clockSelectMinute;
+window.clockSyncFromInputs = clockSyncFromInputs;
+window.clockSyncHidden = clockSyncHidden;
+window.clockUpdateDisplay = clockUpdateDisplay;
+window.buildHourGrid = buildHourGrid;
+window.clockCustomMin = clockCustomMin;

@@ -297,9 +297,9 @@ function viewBizReceipt(bizId, entryId) {
 
 
 // --- window exports ---
-if (typeof getBizData !== 'undefined') window.getBizData = getBizData;
-if (typeof renderBizPage !== 'undefined') window.renderBizPage = renderBizPage;
-if (typeof setBizTab !== 'undefined') window.setBizTab = setBizTab;
-if (typeof openBizIncomeModal !== 'undefined') window.openBizIncomeModal = openBizIncomeModal;
-if (typeof saveBizTransaction !== 'undefined') window.saveBizTransaction = saveBizTransaction;
-if (typeof viewBizReceipt !== 'undefined') window.viewBizReceipt = viewBizReceipt;
+window.getBizData = getBizData;
+window.renderBizPage = renderBizPage;
+window.setBizTab = setBizTab;
+window.openBizIncomeModal = openBizIncomeModal;
+window.saveBizTransaction = saveBizTransaction;
+window.viewBizReceipt = viewBizReceipt;

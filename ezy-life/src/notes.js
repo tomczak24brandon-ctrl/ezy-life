@@ -525,17 +525,17 @@ function fetchGoogleNotes() {
 
 
 // --- window exports ---
-if (typeof openNoteModal !== 'undefined') window.openNoteModal = openNoteModal;
-if (typeof nmSelectColor !== 'undefined') window.nmSelectColor = nmSelectColor;
-if (typeof nmTogglePin !== 'undefined') window.nmTogglePin = nmTogglePin;
-if (typeof nmSave !== 'undefined') window.nmSave = nmSave;
-if (typeof nmDelete !== 'undefined') window.nmDelete = nmDelete;
-if (typeof noteInsertFormat !== 'undefined') window.noteInsertFormat = noteInsertFormat;
-if (typeof noteCardToggleCb !== 'undefined') window.noteCardToggleCb = noteCardToggleCb;
-if (typeof saveNotes !== 'undefined') window.saveNotes = saveNotes;
-if (typeof renderNotes !== 'undefined') window.renderNotes = renderNotes;
-if (typeof buildNoteCard !== 'undefined') window.buildNoteCard = buildNoteCard;
-if (typeof toggleNotePin !== 'undefined') window.toggleNotePin = toggleNotePin;
-if (typeof deleteNote !== 'undefined') window.deleteNote = deleteNote;
-if (typeof fetchGoogleNotes !== 'undefined') window.fetchGoogleNotes = fetchGoogleNotes;
-if (typeof buildNoteColorPicker !== 'undefined') window.buildNoteColorPicker = buildNoteColorPicker;
+window.openNoteModal = openNoteModal;
+window.nmSelectColor = nmSelectColor;
+window.nmTogglePin = nmTogglePin;
+window.nmSave = nmSave;
+window.nmDelete = nmDelete;
+window.noteInsertFormat = noteInsertFormat;
+window.noteCardToggleCb = noteCardToggleCb;
+window.saveNotes = saveNotes;
+window.renderNotes = renderNotes;
+window.buildNoteCard = buildNoteCard;
+window.toggleNotePin = toggleNotePin;
+window.deleteNote = deleteNote;
+window.fetchGoogleNotes = fetchGoogleNotes;
+window.buildNoteColorPicker = buildNoteColorPicker;

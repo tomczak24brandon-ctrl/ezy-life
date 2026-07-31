@@ -543,23 +543,23 @@ function renderCheckbook() {}
 
 
 // --- window exports ---
-if (typeof setFinTab !== 'undefined') window.setFinTab = setFinTab;
-if (typeof renderFinPage !== 'undefined') window.renderFinPage = renderFinPage;
-if (typeof openFinAccount !== 'undefined') window.openFinAccount = openFinAccount;
-if (typeof renderFinAccount !== 'undefined') window.renderFinAccount = renderFinAccount;
-if (typeof setFinBudgetMonth !== 'undefined') window.setFinBudgetMonth = setFinBudgetMonth;
-if (typeof setFinOpeningBal !== 'undefined') window.setFinOpeningBal = setFinOpeningBal;
-if (typeof deleteFinAccount !== 'undefined') window.deleteFinAccount = deleteFinAccount;
-if (typeof openAddFinAccountModal !== 'undefined') window.openAddFinAccountModal = openAddFinAccountModal;
-if (typeof saveFinAccount !== 'undefined') window.saveFinAccount = saveFinAccount;
-if (typeof openBudgetItemModal !== 'undefined') window.openBudgetItemModal = openBudgetItemModal;
-if (typeof editBudgetItem !== 'undefined') window.editBudgetItem = editBudgetItem;
-if (typeof saveBudgetItem !== 'undefined') window.saveBudgetItem = saveBudgetItem;
-if (typeof deleteBudgetItem !== 'undefined') window.deleteBudgetItem = deleteBudgetItem;
-if (typeof openLedgerModal !== 'undefined') window.openLedgerModal = openLedgerModal;
-if (typeof saveLedgerTransaction !== 'undefined') window.saveLedgerTransaction = saveLedgerTransaction;
-if (typeof renderBudget !== 'undefined') window.renderBudget = renderBudget;
-if (typeof renderCheckbook !== 'undefined') window.renderCheckbook = renderCheckbook;
-if (typeof getCurrentMonthKey !== 'undefined') window.getCurrentMonthKey = getCurrentMonthKey;
-if (typeof getMonthLabel !== 'undefined') window.getMonthLabel = getMonthLabel;
-if (typeof getAccountBalance !== 'undefined') window.getAccountBalance = getAccountBalance;
+window.setFinTab = setFinTab;
+window.renderFinPage = renderFinPage;
+window.openFinAccount = openFinAccount;
+window.renderFinAccount = renderFinAccount;
+window.setFinBudgetMonth = setFinBudgetMonth;
+window.setFinOpeningBal = setFinOpeningBal;
+window.deleteFinAccount = deleteFinAccount;
+window.openAddFinAccountModal = openAddFinAccountModal;
+window.saveFinAccount = saveFinAccount;
+window.openBudgetItemModal = openBudgetItemModal;
+window.editBudgetItem = editBudgetItem;
+window.saveBudgetItem = saveBudgetItem;
+window.deleteBudgetItem = deleteBudgetItem;
+window.openLedgerModal = openLedgerModal;
+window.saveLedgerTransaction = saveLedgerTransaction;
+window.renderBudget = renderBudget;
+window.renderCheckbook = renderCheckbook;
+window.getCurrentMonthKey = getCurrentMonthKey;
+window.getMonthLabel = getMonthLabel;
+window.getAccountBalance = getAccountBalance;

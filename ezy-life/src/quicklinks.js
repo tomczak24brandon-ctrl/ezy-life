@@ -111,10 +111,10 @@ var _HIE_EMOJIS = ['🏠','🎯','📅','📝','📈','🚗','🏢','🦅','🚛
 
 
 // --- window exports ---
-if (typeof qlLoad !== 'undefined') window.qlLoad = qlLoad;
-if (typeof qlSave !== 'undefined') window.qlSave = qlSave;
-if (typeof renderQuickLinks !== 'undefined') window.renderQuickLinks = renderQuickLinks;
-if (typeof qlOpenModal !== 'undefined') window.qlOpenModal = qlOpenModal;
-if (typeof qlSelectItem !== 'undefined') window.qlSelectItem = qlSelectItem;
-if (typeof qlSaveShortcut !== 'undefined') window.qlSaveShortcut = qlSaveShortcut;
-if (typeof qlDelete !== 'undefined') window.qlDelete = qlDelete;
+window.qlLoad = qlLoad;
+window.qlSave = qlSave;
+window.renderQuickLinks = renderQuickLinks;
+window.qlOpenModal = qlOpenModal;
+window.qlSelectItem = qlSelectItem;
+window.qlSaveShortcut = qlSaveShortcut;
+window.qlDelete = qlDelete;

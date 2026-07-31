@@ -547,11 +547,11 @@ function kbCardDrop(e, targetGid) {
 
 
 // --- window exports ---
-if (typeof renderKanban !== 'undefined') window.renderKanban = renderKanban;
-if (typeof kcardComplete !== 'undefined') window.kcardComplete = kcardComplete;
-if (typeof kcardToggle !== 'undefined') window.kcardToggle = kcardToggle;
-if (typeof kbDragStart !== 'undefined') window.kbDragStart = kbDragStart;
-if (typeof kbDrop !== 'undefined') window.kbDrop = kbDrop;
-if (typeof kbCardDragOver !== 'undefined') window.kbCardDragOver = kbCardDragOver;
-if (typeof kbCardDragLeave !== 'undefined') window.kbCardDragLeave = kbCardDragLeave;
-if (typeof kbCardDrop !== 'undefined') window.kbCardDrop = kbCardDrop;
+window.renderKanban = renderKanban;
+window.kcardComplete = kcardComplete;
+window.kcardToggle = kcardToggle;
+window.kbDragStart = kbDragStart;
+window.kbDrop = kbDrop;
+window.kbCardDragOver = kbCardDragOver;
+window.kbCardDragLeave = kbCardDragLeave;
+window.kbCardDrop = kbCardDrop;

@@ -134,5 +134,5 @@ function _ncePlainRow(text) {
 
 
 // --- window exports ---
-if (typeof nceGetValue !== 'undefined') window.nceGetValue = nceGetValue;
-if (typeof nceSetValue !== 'undefined') window.nceSetValue = nceSetValue;
+window.nceGetValue = nceGetValue;
+window.nceSetValue = nceSetValue;

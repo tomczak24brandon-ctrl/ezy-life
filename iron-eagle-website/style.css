@@ -1,0 +1,894 @@
+/* =============================================
+   Iron Eagle Truck Center — Main Stylesheet
+   ============================================= */
+
+/* NAV-SECTION ROUTING */
+.nav-section { display: none; }
+.nav-section.active { display: block; }
+.header-nav a.nav-active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 2px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:    #060a0f;
+  --dark:     #0d1218;
+  --gray:     #141c26;
+  --steel:    #1e2a38;
+  --gold:     #1a6dd4;
+  --gold-lt:  #4a90e0;
+  --white:    #dce8f5;
+  --muted:    #7a93ad;
+  --silver:   #b0c0d0;
+  --red:      #b22222;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- HEADER ---- */
+.site-header {
+  position: relative;
+  z-index: 100;
+  background: var(--black);
+}
+
+/* Top row: logo + motto */
+.header-top {
+  background: var(--dark);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--steel);
+}
+
+.header-top-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.header-motto {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-style: italic;
+}
+
+/* Bottom row: nav links */
+.header-nav {
+  background: var(--steel);
+  border-bottom: 2px solid var(--gold);
+  padding: 0;
+}
+
+.header-nav .container {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.header-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  transition: background 0.2s, color 0.2s;
+  display: block;
+}
+
+.header-nav a:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+.header-nav .btn-nav {
+  background: var(--gold);
+  color: var(--black) !important;
+  margin-left: auto;
+}
+
+.header-nav .btn-nav:hover {
+  background: var(--gold-lt) !important;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  min-width: 120px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-eagle { font-size: 2rem; }
+
+.logo-img {
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+}
+
+.footer-logo {
+  height: 72px;
+  opacity: 0.9;
+}
+
+.logo-right {
+  display: flex;
+  align-items: center;
+}
+
+.logo-title {
+  display: block;
+  font-family: 'Teko', sans-serif;
+  font-size: 6.8rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 4px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.logo-sub {
+  display: block;
+  font-family: 'Teko', sans-serif;
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: 8px;
+  color: var(--gold);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.logo-motto {
+  display: block;
+  font-family: 'Teko', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--silver);
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.logo-title {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.logo-sub {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: var(--muted);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-links a {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+/* ---- MOTTO BANNER (below nav) ---- */
+.motto-banner-nav {
+  background: #000;
+  color: #1a6dd4;
+  text-align: center;
+  padding: 8px 24px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border-top: 1px solid #1a3a6e;
+}
+
+.btn-nav {
+  background: var(--gold);
+  color: var(--black) !important;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-weight: 700 !important;
+  transition: background 0.2s !important;
+}
+
+.btn-nav:hover { background: var(--gold-lt) !important; }
+
+/* ---- HERO ---- */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(160deg, rgba(6,10,15,0.88) 40%, rgba(26,109,212,0.18) 100%),
+    url('hero-bg.jpg') center/cover no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+
+.hero-content h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.hero-content h1 span { color: var(--gold); }
+
+.hero-motto {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--silver);
+  letter-spacing: 1px;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 32px;
+  letter-spacing: 0.5px;
+}
+
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--black);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 14px 32px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+.btn-secondary {
+  display: inline-block;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 12px 32px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover { background: var(--gold); color: var(--black); }
+
+/* ---- TRUST BAR ---- */
+.trust-bar {
+  background: linear-gradient(90deg, #0d1f3c 0%, #1a3a6e 50%, #0d1f3c 100%);
+  border-top: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  padding: 18px 0;
+}
+
+.trust-inner {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--silver);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.trust-icon { font-size: 1.3rem; }
+
+/* ---- SECTIONS SHARED ---- */
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  font-size: 1rem;
+}
+
+/* ---- MOTTO BANNER ---- */
+.motto-banner {
+  background: #ffffff;
+  padding: 36px 0;
+  text-align: center;
+  border-top: 4px solid var(--gold);
+  border-bottom: 4px solid var(--gold);
+}
+
+.motto-text {
+  font-family: 'Teko', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+/* ---- LISTINGS SECTIONS (SALES + PARTS) ---- */
+.listings-section {
+  padding: 80px 0;
+  background: var(--gray);
+}
+
+.parts-section {
+  background: var(--black);
+}
+
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.listing-card {
+  background: var(--dark);
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.listing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(201,160,64,0.15);
+  border-color: var(--gold);
+}
+
+.coming-soon-card { opacity: 0.65; pointer-events: none; }
+
+.listing-img-wrap {
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: var(--steel);
+}
+
+.listing-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.listing-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  background: var(--steel);
+  border-bottom: 1px solid #333;
+}
+
+.listing-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listing-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 2px 10px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.listing-badge.badge-live {
+  color: #4caf50;
+  border-color: #4caf50;
+}
+
+.listing-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.listing-detail {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.listing-price {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.listing-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.listings-cta {
+  text-align: center;
+  border-top: 1px solid #2a2a2a;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.listings-cta p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.listings-cta .btn-secondary { margin-left: 0; }
+
+.listings-cta a + a { margin-left: 16px; }
+
+.parts-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.parts-cat {
+  background: var(--steel);
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+
+/* ---- OLD COMING SOON (SALES) — REMOVED ---- */
+.coming-soon-old {
+  padding: 100px 0;
+  background: var(--gray);
+  text-align: center;
+  border-top: 3px solid var(--gold);
+  border-bottom: 3px solid var(--gold);
+}
+
+.cs-badge {
+  display: inline-block;
+  background: var(--steel);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 20px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.cs-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.cs-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 580px;
+  margin: 0 auto 48px;
+  line-height: 1.8;
+}
+
+.cs-features {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.cs-feature {
+  background: var(--steel);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 28px 32px;
+  min-width: 160px;
+  transition: border-color 0.2s;
+}
+
+.cs-feature:hover { border-color: var(--gold); }
+
+.cs-feature span {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.cs-feature p {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cs-cta-text {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+/* ---- SERVICES ---- */
+.services {
+  padding: 80px 0;
+  background: var(--dark);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--gray);
+  border: 1px solid #2a2a2a;
+  border-top: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(201,160,64,0.15);
+}
+
+.card-icon { font-size: 2.5rem; margin-bottom: 16px; }
+
+.card h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.card p { color: #bbb; font-size: 0.95rem; line-height: 1.7; }
+
+/* ---- PARTS ---- */
+.parts {
+  padding: 80px 0;
+  background: var(--black);
+}
+
+.parts-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.parts-text h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.parts-text p {
+  color: #bbb;
+  margin-bottom: 24px;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.parts-list {
+  list-style: none;
+  margin-bottom: 32px;
+}
+
+.parts-list li {
+  color: var(--white);
+  padding: 6px 0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #222;
+}
+
+.parts-placeholder {
+  background: var(--gray);
+  border: 2px dashed var(--steel);
+  border-radius: 8px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 4rem;
+}
+
+.parts-placeholder p {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ---- ABOUT ---- */
+.about {
+  padding: 80px 0;
+  background: var(--dark);
+}
+
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-placeholder {
+  background: var(--gray);
+  border: 2px dashed var(--steel);
+  border-radius: 8px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+}
+
+.about-text h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  color: #bbb;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.about-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.stat { text-align: center; }
+
+.stat-num {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ---- CONTACT ---- */
+.contact {
+  padding: 80px 0;
+  background: var(--black);
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.contact-card {
+  background: var(--gray);
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 40px 24px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.contact-card:hover { border-color: var(--gold); }
+
+.contact-icon { font-size: 2.5rem; display: block; margin-bottom: 16px; }
+
+.contact-card h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.contact-card p { color: #bbb; font-size: 1rem; }
+.contact-card a { color: var(--gold); text-decoration: none; }
+.contact-card a:hover { color: var(--gold-lt); text-decoration: underline; }
+
+/* ---- FOOTER ---- */
+.footer {
+  background: var(--black);
+  border-top: 2px solid var(--gold);
+  padding: 32px 0;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.footer-copy { color: var(--muted); font-size: 0.85rem; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  .nav-links { gap: 16px; }
+  .nav-links a:not(.btn-nav) { display: none; }
+
+  .hero { min-height: 70vh; }
+  .hero-content h1 { font-size: 2rem; }
+
+  .parts-inner,
+  .about-inner { grid-template-columns: 1fr; }
+
+  .about-img { display: none; }
+
+  .trust-inner { gap: 8px; }
+  .trust-item { font-size: 0.8rem; }
+}
