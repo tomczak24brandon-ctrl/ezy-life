@@ -75,7 +75,7 @@ function doForgotUser() {
 
 // ===== APP STATE =====
 
-var _dataLoaded = false;
+window._dataLoaded = false;
 var goals = [];
 var notes = [];
 

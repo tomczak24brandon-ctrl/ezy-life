@@ -21,5 +21,5 @@ import './biz.js'
 import './financials.js'
 
 document.addEventListener('DOMContentLoaded', function() {
-  if (typeof appInit === 'function') appInit();
+  if (typeof window.appInit === 'function') window.appInit();
 });

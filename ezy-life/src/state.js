@@ -1,9 +1,9 @@
 
 function saveData() {
-  if (!_dataLoaded) {
+  if (!window._dataLoaded) {
     // Buffer the save and retry once data is loaded instead of silently dropping it
     console.warn('saveData: data not yet loaded, buffering save for retry');
-    setTimeout(function(){ if(_dataLoaded) saveData(); }, 1500);
+    setTimeout(function(){ if(window._dataLoaded) saveData(); }, 1500);
     return;
   }
   // Always save sidebar to localStorage (UI prefs only)
@@ -68,7 +68,7 @@ function loadData() {
       var fin = localStorage.getItem('ezy_finaccounts_v1'); if (fin) _finAccounts = JSON.parse(fin);
       // Notes and _tasks are loaded from Google APIs after auth; skip localStorage restore
     } catch(e) {}
-    _dataLoaded = true;
+    window._dataLoaded = true;
     return Promise.resolve();
   }
 
@@ -90,10 +90,10 @@ function loadData() {
         if (d.finAccounts)  _finAccounts = d.finAccounts;
         // notes and _tasks intentionally excluded � fetched from Google Calendar/Tasks APIs
         categories.forEach(function(x){ if(x.id >= _nextCatId) _nextCatId = x.id + 1; });
-        _dataLoaded = true;
+        window._dataLoaded = true;
         console.log('Loaded data from Firestore for uid:', window._fbUid);
       } else {
-        _dataLoaded = true;
+        window._dataLoaded = true;
         console.log('No Firestore data found - fresh user');
       }
     })
@@ -199,5 +199,6 @@ var _gsearchTimer = null;
 
 
 // --- window exports ---
-window.saveData = saveData;
-window.loadData = loadData;
+window.saveData  = saveData;
+window.loadData  = loadData;
+window.appInit   = appInit;

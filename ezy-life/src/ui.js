@@ -893,4 +893,5 @@ window.gsearchRun = gsearchRun;
 window.gsearchActEl = gsearchActEl;
 window.gsearchAct = gsearchAct;
 window.gsearchBlur = gsearchBlur;
-window.gsearchKey = gsearchKey;
+window.gsearchKey    = gsearchKey;
+window.toggleTheme   = toggleTheme;
