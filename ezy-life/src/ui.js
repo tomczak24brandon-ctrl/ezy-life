@@ -895,3 +895,4 @@ window.gsearchAct = gsearchAct;
 window.gsearchBlur = gsearchBlur;
 window.gsearchKey    = gsearchKey;
 window.toggleTheme   = toggleTheme;
+window.loadSidebarFromStorage = loadSidebarFromStorage;
