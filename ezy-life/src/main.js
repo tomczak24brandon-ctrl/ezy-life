@@ -19,7 +19,17 @@ import './kanban.js'
 import './vehicles.js'
 import './biz.js'
 import './financials.js'
+// Expose core functions to window for HTML inline listeners
+import { toggleTheme, renderDashboard } from './ui.js';
+import { loadSidebarFromStorage, appInit } from './core.js';
+
+window.toggleTheme = toggleTheme;
+window.loadSidebarFromStorage = loadSidebarFromStorage;
+window.appInit = appInit || renderDashboard;
 
 document.addEventListener('DOMContentLoaded', function() {
-  if (typeof window.appInit === 'function') window.appInit();
+    if (typeof window.appInit === 'function') {
+        window.appInit();
+    } else if (typeof renderDashboard === 'function') {
+        renderDashboard();
 });
