@@ -1,4 +1,17 @@
 .vercel
 node_modules/
+**/node_modules/
 dist/
 *.log
+
+# Debug / temp scripts at workspace root (not part of ezy-life project)
+screenshot/
+*.js.map
+verify*.js
+check*.js
+sw-fix.js
+test-*.js
+patch-*.js
+debug-*.js
+*.png
+trade-journal-preview.png

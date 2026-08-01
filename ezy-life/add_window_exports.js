@@ -36,10 +36,12 @@ for (const [file, fns] of Object.entries(windowExports)) {
   
   // Add window exports at bottom
   const exports = fns.map(fn => `if (typeof ${fn} !== 'undefined') window.${fn} = ${fn};`).join('\n');
-  content += '\n\n// --- window exports ---\n' + exports + '\n';
+  content += '\n\n// --- window exports ---\n' + expor
   
   fs.writeFileSync(filePath, content, 'utf8');
   console.log(file + ': added ' + fns.length + ' window exports');
 }
 
 console.log('Done!');
+window.toggleTheme = toggleTheme
+window._gcalAnchor = _gcalAnchor;
