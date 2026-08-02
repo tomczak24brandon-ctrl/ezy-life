@@ -20,16 +20,16 @@ import './vehicles.js'
 import './biz.js'
 import './financials.js'
 // Expose core functions to window for HTML inline listeners
-import { toggleTheme, renderDashboard } from './ui.js';
-import { loadSidebarFromStorage, appInit } from './core.js';
-
-window.toggleTheme = toggleTheme;
-window.loadSidebarFromStorage = loadSidebarFromStorage;
-window.appInit = appInit || renderDashboard;
+// (modules assign to window directly — no named exports needed)
+if (typeof window !== 'undefined') {
+  window.toggleTheme = typeof toggleTheme !== 'undefined' ? toggleTheme : null;
+  window.loadSidebarFromStorage = typeof loadSidebarFromStorage !== 'undefined' ? loadSidebarFromStorage : null;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.appInit === 'function') {
         window.appInit();
-    } else if (typeof renderDashboard === 'function') {
-        renderDashboard();
+    } else if (typeof window.renderDashboard === 'function') {
+        window.renderDashboard();
+    }
 });
