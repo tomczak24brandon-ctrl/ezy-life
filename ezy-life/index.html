@@ -2368,48 +2368,6 @@
 // ===== CAPTCHA =====
 
 
-// ===== REMEMBER ME =====
-
-
-function loadSaved(){
-
-
-  var saved = localStorage.getItem('ezy_saved_creds');
-
-
-  if (saved) {
-
-
-    try {
-
-
-      var c = JSON.parse(atob(saved));
-
-
-      var u = document.getElementById('l-user'), pw = document.getElementById('l-pass');
-
-
-      if (u && c.u) u.value = c.u.toLowerCase();
-
-
-      if (pw && c.p) pw.value = c.p;
-
-
-      document.getElementById('remember-me').checked = true;
-
-
-    } catch(e){}
-
-
-  }
-
-
-}
-
-
-loadSaved();
-
-
 // ===== APP STATE =====
 
 
@@ -11066,12 +11024,6 @@ function openFinCategory(catId) {
 }
 
 
-function sgFinCatToggle(key) {
-  _sgCollapsed[key] = !_sgCollapsed[key];
-  renderSidebar();
-}
-
-
 function setFinCatAndAddAcct(catId) {
   _currentFinCategoryId = catId;
   openAddFinAccountModal();
@@ -13122,6 +13074,7 @@ var _orig_setEndAMPM_td=setEndAMPM_td; setEndAMPM_td=function(v){ _orig_setEndAM
 <script src="./src/core.js"></script>
 <script src="./src/ui.js"></script>
 <script src="./src/state.js"></script>
+<script src="./src/sidebar-groups.js"></script>
 </body>
 
 
