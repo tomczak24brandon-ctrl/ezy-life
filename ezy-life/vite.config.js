@@ -1,16 +1,15 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './',
+  // Pure static site — Vite only copies public/ to dist/, no JS bundling
+  base: '/',
+  publicDir: 'public',
   build: {
+    // No JS entry point; output the HTML as-is with static assets
     rollupOptions: {
-      output: {
-        // Single IIFE bundle — all modules share one global scope,
-        // matching the original monolith behavior
-        format: 'iife',
-        name: 'EZYLife',
-        inlineDynamicImports: true,
-      }
-    }
-  }
+      input: 'index.html',
+    },
+    // Do not process/transform script tags that have no type="module"
+    // Vite will copy public/ verbatim; absolute /src/* paths resolve from there
+  },
 });
